@@ -1,0 +1,18 @@
+export interface LoginT {
+  username: string;
+  password: string;
+}
+
+export interface LoginResponse {
+  statusCode: number;
+  message: {
+    uz: string;
+    en: string;
+    ru: string;
+  };
+  data: {
+    token: any;
+    accessToken: string;
+    role: string; // "ADMIN" | "TEACHER" | "SUPER_ADMIN"
+  };
+}
