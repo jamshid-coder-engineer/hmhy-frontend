@@ -27,28 +27,28 @@ export function AppSidebar({ role }: { role: string }) {
                     <h2 className="text-white text-2xl mt-4 font-bold">Admin Panel</h2>
                 </Link>
             </SidebarHeader>
-            
+
             <SidebarContent>
                 <SidebarGroupContent className="p-0 h-full bg-gray-150">
-                   <SidebarMenu>
-  {roleLinks.map((item) => (
-    <SidebarMenuItem key={item.title}>
-      <SidebarMenuButton asChild>
-        <ActiveLink href={item.url}>
-          <item.icon className="w-5 h-5" />
-          <span>{item.title}</span>
-        </ActiveLink>
-      </SidebarMenuButton>
-    </SidebarMenuItem>
-  ))}
-</SidebarMenu>
+                    <SidebarMenu>
+                        {roleLinks.map((item) => (
+                            <SidebarMenuItem key={item.title}>
+                                <SidebarMenuButton asChild>
+                                    <ActiveLink href={item.url}>
+                                        <item.icon className="w-5 h-5" />
+                                        <span>{item.title}</span>
+                                    </ActiveLink>
+                                </SidebarMenuButton>
+                            </SidebarMenuItem>
+                        ))}
+                    </SidebarMenu>
 
                 </SidebarGroupContent>
             </SidebarContent>
-            
+
             <SidebarFooter className="p-4 border-t">
-                <Button 
-                    variant="destructive" 
+                <Button
+                    variant="destructive"
                     className="w-full flex items-center gap-2 justify-center"
                     onClick={logout}
                 >

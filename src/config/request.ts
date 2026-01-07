@@ -1,12 +1,11 @@
 import type { LoginResponse }  from "../pages/auth/types";
 import axios from "axios";
-import Cookies from "js-cookie";
 
 export const BASE_URL =  'http://localhost:5000/api/v1'
 const request = axios.create({baseURL:BASE_URL
 })
 request.interceptors.request.use((config) => {
-    const token = localStorage.getItem("token"); // ← Cookie'dan localStorage'ga
+    const token = localStorage.getItem("token"); 
     if (token) {
         config.headers.Authorization = `Bearer ${token}`
     }
@@ -28,13 +27,13 @@ request.interceptors.response.use(
         );
 
         const newAccessToken = response.data.data.token;
-        localStorage.setItem("token", newAccessToken); // ← Cookie'dan localStorage'ga
+        localStorage.setItem("token", newAccessToken); 
 
         originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
         return request(originalRequest);
 
       } catch (refreshError) {
-        localStorage.removeItem("token"); // ← Cookie'dan localStorage'ga
+        localStorage.removeItem("token"); 
         localStorage.removeItem("role");
 
         window.location.href = "/";
