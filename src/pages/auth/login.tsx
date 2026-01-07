@@ -5,7 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from "zod"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '../../components/ui/form'
 import { Input } from '../../components/ui/input'
-import { Button } from '../../components/ui/button' 
+import { Button } from '../../components/ui/button'
 import { PasswordInput } from '../../components/ui/password-input'
 import { UseLogin } from './service/use-login'
 import { toast } from 'sonner'
@@ -16,7 +16,7 @@ const formSchema = z.object({
 })
 
 const Login = () => {
-    const { mutate, isPending } = UseLogin() 
+    const { mutate, isPending } = UseLogin()
     const navigate = useNavigate();
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -26,31 +26,31 @@ const Login = () => {
             password: "jamshid000!",
         },
     })
-const onSubmit = (data: z.infer<typeof formSchema>) => {
-    mutate(data, {
-        onSuccess: (res) => {
-            // console.log("SUCCESS:", res)
-            
-            localStorage.setItem('token', res.data.accessToken)
-            localStorage.setItem('role', res.data.role.toLowerCase())
+    const onSubmit = (data: z.infer<typeof formSchema>) => {
+        mutate(data, {
+            onSuccess: (res) => {
+                // console.log("SUCCESS:", res)
 
-            toast.success(res.message.uz || 'Login muvaffaqiyatli!', {
-                position: "bottom-right"
-            })
+                localStorage.setItem('token', res.data.accessToken)
+                localStorage.setItem('role', res.data.role.toLowerCase())
 
-            navigate(`/app/${res.data.role.toLowerCase()}`)
-        },
-        onError: () => {
-        }
-    })
-}
+                toast.success(res.message.uz || 'Login muvaffaqiyatli!', {
+                    position: "bottom-right"
+                })
+
+                navigate(`/app/${res.data.role.toLowerCase()}`)
+            },
+            onError: () => {
+            }
+        })
+    }
 
     return (
         <div className='fixed bg-gray-200 inset-0 flex items-center justify-center'>
             <div className='w-125 bg-white shadow rounded-lg p-6'>
                 <h1 className='text-3xl font-bold text-center'>Admin Panel</h1>
                 <p className='text-center text-[14px] mb-4 mt-2'>Tizim boshqaruvi uchun kirish</p>
-                
+
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                         <FormField
@@ -60,9 +60,9 @@ const onSubmit = (data: z.infer<typeof formSchema>) => {
                                 <FormItem>
                                     <FormLabel className='font-extrabold'>Username</FormLabel>
                                     <FormControl>
-                                        <Input 
-                                            placeholder="Enter your username" 
-                                            {...field} 
+                                        <Input
+                                            placeholder="Enter your username"
+                                            {...field}
                                             disabled={isPending}
                                         />
                                     </FormControl>
@@ -79,7 +79,7 @@ const onSubmit = (data: z.infer<typeof formSchema>) => {
                                     <FormLabel className='font-extrabold'>Password</FormLabel>
                                     <FormControl>
                                         <PasswordInput
-                                            placeholder="Enter your password" 
+                                            placeholder="Enter your password"
                                             {...field}
                                             disabled={isPending}
                                         />
@@ -89,8 +89,8 @@ const onSubmit = (data: z.infer<typeof formSchema>) => {
                             )}
                         />
 
-                        <Button 
-                            type="submit" 
+                        <Button
+                            type="submit"
                             className="w-full"
                             disabled={isPending}
                         >
@@ -103,13 +103,23 @@ const onSubmit = (data: z.infer<typeof formSchema>) => {
                                 'Tizimga kirish'
                             )}
                         </Button>
-                        
+
                         <p className='text-[12px] text-center text-gray-500'>
                             Admin Panel - Faqat ruhsat etilgan foydalanuvchilar uchun
                         </p>
+                        <div className='mt-6 text-center border-t'>
+                            <p className='text-sm text-gray-600 mb-3'>Are you a teacher?</p>
+                            <a
+                                href='/teacher/login'
+                                className='text-blue-600 hover:underline font-medium'
+                            >
+                                Login as Teacher →
+                            </a>
+                        </div>
                     </form>
                 </Form>
             </div>
+
         </div>
     )
 }
