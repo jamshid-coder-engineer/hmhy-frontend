@@ -44,7 +44,6 @@ export const Dashboard = () => {
 
   const stats = data.data
 
-  // Stats cards ma'lumotlari
   const statsCards = [
     {
       title: 'Ustozlar',

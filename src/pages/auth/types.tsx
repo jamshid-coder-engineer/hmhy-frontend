@@ -16,3 +16,5 @@ export interface LoginResponse {
     role: string; // "ADMIN" | "TEACHER" | "SUPER_ADMIN"
   };
 }
+
+export type Role = "admin" | "teacher" | "superadmin";
