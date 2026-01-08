@@ -1,4 +1,4 @@
-import React from 'react'
+// import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -16,6 +16,9 @@ const formSchema = z.object({
 })
 
 const Login = () => {
+    //   useEffect(() => {
+    //                 toast.success('TEST TOAST ISHLAYAPTI ')
+    //             }, [])
     const { mutate, isPending } = UseLogin()
     const navigate = useNavigate();
 
@@ -32,10 +35,13 @@ const Login = () => {
                 // console.log("SUCCESS:", res)
 
                 localStorage.setItem('token', res.data.accessToken)
+                localStorage.setItem('username', res.data.username)
                 localStorage.setItem('role', res.data.role.toLowerCase())
 
+              
+
                 toast.success(res.message.uz || 'Login muvaffaqiyatli!', {
-                    position: "bottom-right"
+                    position: "top-right"
                 })
 
                 navigate(`/app/${res.data.role.toLowerCase()}`)

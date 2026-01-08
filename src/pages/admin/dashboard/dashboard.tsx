@@ -111,19 +111,21 @@ export const Dashboard = () => {
   ]
 
   return (
-    <div className='space-y-6'>
-      <Card className='bg-gradient-to-r from-cyan-500 to-blue-600 border-none shadow-lg'>
-        <CardContent className='p-8 text-white'>
+    <div className='space-y-4'>
+      <Card className='bg-linear-to-r from-cyan-500 to-blue-600 border-none shadow-lg'>
+        <CardContent className='p-2 text-white'>
+          <div className='text-center'>
           <h1 className='text-3xl font-bold mb-2'>
             Xush kelibsiz, {username}! 👋
           </h1>
-          <p className='text-white/90'>
+          <p className='text-white/95'>
             Bugungi platformangiz statistikasi
           </p>
+          </div>
         </CardContent>
       </Card>
 
-      <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6'>
+      <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4'>
         {statsCards.map((stat) => (
           <Card key={stat.title} className='hover:shadow-lg transition-shadow'>
             <CardHeader className='flex flex-row items-center justify-between pb-2'>

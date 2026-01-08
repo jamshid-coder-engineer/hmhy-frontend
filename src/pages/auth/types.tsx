@@ -11,6 +11,7 @@ export interface LoginResponse {
     ru: string;
   };
   data: {
+    username: string;
     token: any;
     accessToken: string;
     role: string; // "ADMIN" | "TEACHER" | "SUPER_ADMIN"
