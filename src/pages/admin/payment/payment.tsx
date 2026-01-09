@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, type JSXElementConstructor, type Key, type ReactElement, type ReactNode, type ReactPortal } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '../../../components/ui/card'
 import { Input } from '../../../components/ui/input'
 import { Button } from '../../../components/ui/button'
@@ -27,7 +27,7 @@ import {
   Download,
   Loader2,
 } from 'lucide-react'
-import { usePaymentStats } from '../service/query/use-payment'
+import { usePaymentStats } from '../service/query/usePayment'
 
 export const Payment = () => {
   const { data, isLoading, isError } = usePaymentStats()
@@ -56,7 +56,7 @@ export const Payment = () => {
 
   const stats = data.data
 
-  const filteredTransactions = stats.transactions.filter(t => {
+  const filteredTransactions = stats.transactions.filter((t: { student: { name: string }; teacher: { name: string }; status: string; provider: string }) => {
     const matchesSearch = searchQuery === '' ||
       t.student?.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       t.teacher?.name.toLowerCase().includes(searchQuery.toLowerCase())
@@ -234,7 +234,7 @@ export const Payment = () => {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {filteredTransactions.map((transaction) => (
+                {filteredTransactions.map((transaction: { id: Key | null | undefined; date: string | number | Date; student: { name: any }; teacher: { name: any }; amount: any; status: string; provider: string | number | bigint | boolean | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<string | number | bigint | boolean | ReactPortal | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | null | undefined> | null | undefined }) => (
                   <TableRow key={transaction.id}>
                     <TableCell className='font-medium'>
                       {new Date(transaction.date).toLocaleDateString('uz-UZ')}

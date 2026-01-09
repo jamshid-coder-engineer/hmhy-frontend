@@ -119,7 +119,7 @@ const Login = () => {
                                 href='/teacher/login'
                                 className='text-blue-600 hover:underline font-medium'
                             >
-                                Login as Teacher →
+                                    Register as Teacher →
                             </a>
                         </div>
                     </form>

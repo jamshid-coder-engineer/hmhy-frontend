@@ -1,4 +1,4 @@
-import { useProfile } from "../service/query/use-profile";
+import { useProfile } from "../service/query/useProfile";
 import { Button } from "../../../components/ui/button";
 import { Input } from "../../../components/ui/input";
 import {
@@ -11,13 +11,13 @@ import {
     Save,
     X,
 } from "lucide-react";
-import { Spinner } from "../../../components/ui/spinner";
 import {
     useEditProfile,
     useChangePassword,
-} from "../service/mutation/use-edit";
+} from "../service/mutate/useEditProfile";
 import { useState } from "react";
 import { toast } from "sonner";
+import { LoadingSkeleton } from "../../../components/loading-skeleton";
 
 export const ProfilePage = () => {
     const { data, isPending, refetch } = useProfile();
@@ -39,15 +39,13 @@ export const ProfilePage = () => {
     });
     const { mutate: changePassword, isPending: isChangingPass } =
         useChangePassword();
-
     if (isPending) {
         return (
-            <div className="flex items-center justify-center min-h-100">
-                <Spinner className="w-8 h-8" />
+            <div className="flex items-center justify-center min-h-screen">
+                <LoadingSkeleton />
             </div>
         );
     }
-
     const profile = data?.data?.data;
 
     const handleEdit = () => {
@@ -122,7 +120,7 @@ export const ProfilePage = () => {
                 onError: (error: any) => {
                     toast.error(
                         error?.response?.data?.message ||
-                            "Failed to change password"
+                        "Failed to change password"
                     );
                 },
             }
@@ -236,7 +234,7 @@ export const ProfilePage = () => {
                         >
                             {isChangingPass ? (
                                 <>
-                                    <Spinner className="w-4 h-4 mr-2" />
+                                    <LoadingSkeleton />
                                     Changing...
                                 </>
                             ) : (
@@ -358,24 +356,24 @@ export const ProfilePage = () => {
                                 <p className="text-gray-900 font-medium">
                                     {profile?.createdAt
                                         ? new Date(
-                                              profile.createdAt
-                                          ).toLocaleDateString("uz-UZ", {
-                                              day: "2-digit",
-                                              month: "long",
-                                              year: "numeric",
-                                              hour: "2-digit",
-                                              minute: "2-digit",
-                                          })
+                                            profile.createdAt
+                                        ).toLocaleDateString("uz-UZ", {
+                                            day: "2-digit",
+                                            month: "long",
+                                            year: "numeric",
+                                            hour: "2-digit",
+                                            minute: "2-digit",
+                                        })
                                         : "18 Dekabr 2025, 16:26"}
                                 </p>
                                 <p className="text-xs text-gray-500 mt-1.5">
                                     {profile?.createdAt
                                         ? new Date(
-                                              profile.createdAt
-                                          ).toLocaleTimeString("uz-UZ", {
-                                              hour: "2-digit",
-                                              minute: "2-digit",
-                                          })
+                                            profile.createdAt
+                                        ).toLocaleTimeString("uz-UZ", {
+                                            hour: "2-digit",
+                                            minute: "2-digit",
+                                        })
                                         : "16:26"}
                                 </p>
                             </div>
@@ -390,24 +388,24 @@ export const ProfilePage = () => {
                                 <p className="text-gray-900 font-medium">
                                     {profile?.updatedAt
                                         ? new Date(
-                                              profile.updatedAt
-                                          ).toLocaleDateString("uz-UZ", {
-                                              day: "2-digit",
-                                              month: "long",
-                                              year: "numeric",
-                                              hour: "2-digit",
-                                              minute: "2-digit",
-                                          })
+                                            profile.updatedAt
+                                        ).toLocaleDateString("uz-UZ", {
+                                            day: "2-digit",
+                                            month: "long",
+                                            year: "numeric",
+                                            hour: "2-digit",
+                                            minute: "2-digit",
+                                        })
                                         : "05 Yanvar 2026, 17:23"}
                                 </p>
                                 <p className="text-xs text-gray-500 mt-1.5">
                                     {profile?.updatedAt
                                         ? new Date(
-                                              profile.updatedAt
-                                          ).toLocaleTimeString("uz-UZ", {
-                                              hour: "2-digit",
-                                              minute: "2-digit",
-                                          })
+                                            profile.updatedAt
+                                        ).toLocaleTimeString("uz-UZ", {
+                                            hour: "2-digit",
+                                            minute: "2-digit",
+                                        })
                                         : "17:23"}
                                 </p>
                             </div>
@@ -425,7 +423,7 @@ export const ProfilePage = () => {
                             >
                                 {isUpdating ? (
                                     <>
-                                        <Spinner className="w-4 h-4 mr-2" />
+                                        <LoadingSkeleton  />
                                         Saving...
                                     </>
                                 ) : (

@@ -1,9 +1,9 @@
-import { Admins } from "../pages/admin/admins/admins";
+import { AdminPage } from "../pages/admin/admins/admin";
 import { Lesson } from "../pages/admin/lesson/lesson";
 import { Payment } from "../pages/admin/payment/payment";
 import { ProfilePage } from "../pages/admin/profile/profile";
 import { Student } from "../pages/admin/student/student";
-import { Teacher } from "../pages/admin/teacher/teacher";
+import { TeacherPage } from "../pages/admin/teacher/teacher";
 
 export default [
     {
@@ -12,7 +12,7 @@ export default [
     },
     {
         path: "admins",
-        page: Admins
+        page: AdminPage
     },
     {
         path: "payment",
@@ -20,7 +20,7 @@ export default [
     },
     {
         path: "teacher",
-        page: Teacher,
+        page: TeacherPage,
     },
     {
         path: "student",

@@ -9,6 +9,6 @@ export const ActiveLink = ({
      }) => {
     const location = useLocation();
     return (
-        <Link className={`${location.pathname === href ? "bg-orange-200" : ""} flex items-center gap-3 p-3`} to={href}>{children}</Link>
+        <Link className={`${location.pathname === href ? "bg-[#353F4D]" : ""} flex items-center gap-3 p-3`} to={href}>{children}</Link>
     )
 }

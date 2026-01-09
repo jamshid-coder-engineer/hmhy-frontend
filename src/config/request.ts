@@ -13,7 +13,7 @@ request.interceptors.request.use((config) => {
 })
 
 request.interceptors.response.use(
-  (response) => {
+   (response) => {
     return response;
   },
   async (error) => {
