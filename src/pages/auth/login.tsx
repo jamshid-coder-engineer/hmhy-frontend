@@ -29,27 +29,26 @@ const Login = () => {
             password: "jamshid000!",
         },
     })
-    const onSubmit = (data: z.infer<typeof formSchema>) => {
-        mutate(data, {
-            onSuccess: (res) => {
-                // console.log("SUCCESS:", res)
+   const onSubmit = () => {
+  mutate( {
+    username: form.getValues("username"),
+    password: form.getValues("password")
+  }, {
+    onSuccess: (res) => {
+      console.log("RES DATA:", res)
 
-                localStorage.setItem('token', res.data.accessToken)
-                localStorage.setItem('username', res.data.username)
-                localStorage.setItem('role', res.data.role.toLowerCase())
+      // res.data.data dan oling
+      localStorage.setItem('token', res.data.accessToken)
+      localStorage.setItem('role', res.data.role.toLowerCase())
+      localStorage.setItem('username', res.data.username)
 
-              
 
-                toast.success(res.message.uz || 'Login muvaffaqiyatli!', {
-                    position: "top-right"
-                })
-
-                navigate(`/app/${res.data.role.toLowerCase()}`)
-            },
-            onError: () => {
-            }
-        })
+      toast.success(res.message.uz || 'Login muvaffaqiyatli!')
+      navigate(`/app/${res.data.role.toLowerCase()}`)
     }
+  })
+}
+         
 
     return (
         <div className='fixed bg-gray-200 inset-0 flex items-center justify-center'>

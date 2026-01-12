@@ -71,4 +71,28 @@ export const links = {
             icon: DollarSign,
         },
     ],
+
+  teacher: [
+    {
+        title: "Dashboard",
+        url: "/teacher/dashboard", 
+        icon: Home,
+    },
+    {
+        title: "Profile",
+        url: "/teacher/profile", 
+        icon: User,
+    },
+    {
+        title: "Student",
+        url: "/teacher/student",
+        icon: Users,
+    },
+    {
+        title: "Lesson",
+        url: "/teacher/lesson",
+        icon: BookOpen,
+    },
+],
+
 }

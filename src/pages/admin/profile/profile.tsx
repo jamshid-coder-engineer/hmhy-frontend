@@ -1,6 +1,7 @@
 import { useProfile } from "../service/query/useProfile";
 import { Button } from "../../../components/ui/button";
 import { Input } from "../../../components/ui/input";
+import { Skeleton } from "../../../components/ui/skeleton";
 import {
     Pencil,
     Lock,
@@ -11,13 +12,13 @@ import {
     Save,
     X,
 } from "lucide-react";
+import { Spinner } from "../../../components/ui/spinner";
 import {
     useEditProfile,
     useChangePassword,
 } from "../service/mutate/useEditProfile";
 import { useState } from "react";
 import { toast } from "sonner";
-import { LoadingSkeleton } from "../../../components/loading-skeleton";
 
 export const ProfilePage = () => {
     const { data, isPending, refetch } = useProfile();
@@ -39,14 +40,75 @@ export const ProfilePage = () => {
     });
     const { mutate: changePassword, isPending: isChangingPass } =
         useChangePassword();
+
     if (isPending) {
         return (
-            <div className="flex items-center justify-center min-h-screen">
-                <LoadingSkeleton />
+            <div>
+                <div className="flex items-center justify-between mb-8">
+                    <Skeleton className="h-9 w-40" />
+                    <div className="flex gap-3">
+                        <Skeleton className="h-10 w-32 rounded-md" />
+                        <Skeleton className="h-10 w-40 rounded-md" />
+                    </div>
+                </div>
+
+                <div className="bg-white rounded-lg border border-gray-200 p-8">
+                    <div className="flex items-center gap-2 mb-8">
+                        <Skeleton className="h-5 w-5 rounded" />
+                        <Skeleton className="h-6 w-48" />
+                    </div>
+
+                    <div className="space-y-8">
+                        <div>
+                            <div className="flex items-center gap-2 mb-3">
+                                <Skeleton className="h-4 w-4 rounded" />
+                                <Skeleton className="h-4 w-20" />
+                            </div>
+                            <Skeleton className="h-11 w-full rounded-md" />
+                        </div>
+
+                        <div>
+                            <div className="flex items-center gap-2 mb-3">
+                                <Skeleton className="h-4 w-4 rounded" />
+                                <Skeleton className="h-4 w-16" />
+                            </div>
+                            <Skeleton className="h-11 w-full rounded-md" />
+                        </div>
+
+                        <div>
+                            <div className="flex items-center gap-2 mb-3">
+                                <Skeleton className="h-4 w-4 rounded" />
+                                <Skeleton className="h-4 w-12" />
+                            </div>
+                            <Skeleton className="h-7 w-24 rounded" />
+                        </div>
+
+                        <div>
+                            <div className="flex items-center gap-2 mb-3">
+                                <Skeleton className="h-4 w-4 rounded" />
+                                <Skeleton className="h-4 w-28" />
+                            </div>
+                            <div className="bg-gray-50 border border-gray-200 rounded-md px-4 py-3">
+                                <Skeleton className="h-5 w-48 mb-2" />
+                                <Skeleton className="h-3 w-16" />
+                            </div>
+                        </div>
+
+                        <div>
+                            <Skeleton className="h-4 w-24 mb-3" />
+                            <div className="bg-gray-50 border border-gray-200 rounded-md px-4 py-3">
+                                <Skeleton className="h-5 w-48 mb-2" />
+                                <Skeleton className="h-3 w-16" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         );
     }
-    const profile = data?.data?.data;
+
+    const profile = data?.data
+    console.log(profile)
 
     const handleEdit = () => {
         setEditedData({
@@ -120,17 +182,15 @@ export const ProfilePage = () => {
                 onError: (error: any) => {
                     toast.error(
                         error?.response?.data?.message ||
-                        "Failed to change password"
+                            "Failed to change password"
                     );
                 },
             }
         );
     };
 
-
     return (
         <div>
-            {/* Page Header */}
             <div className="flex items-center justify-between mb-8">
                 <h1 className="text-3xl font-bold text-gray-900">My Profile</h1>
                 {!isEditing && !isChangingPassword && (
@@ -155,7 +215,6 @@ export const ProfilePage = () => {
                 )}
             </div>
 
-            {/* Change Password Form */}
             {isChangingPassword && (
                 <div className="bg-white rounded-lg border border-gray-200 p-8">
                     <div className="flex items-center gap-2 mb-8">
@@ -166,7 +225,6 @@ export const ProfilePage = () => {
                     </div>
 
                     <div className="space-y-6">
-                        {/* Current Password */}
                         <div>
                             <label className="text-sm font-medium text-gray-700 block mb-2">
                                 Current Password
@@ -185,7 +243,6 @@ export const ProfilePage = () => {
                             />
                         </div>
 
-                        {/* New Password */}
                         <div>
                             <label className="text-sm font-medium text-gray-700 block mb-2">
                                 New Password
@@ -204,8 +261,6 @@ export const ProfilePage = () => {
                             />
                         </div>
 
-
-                        {/* Confirm New Password */}
                         <div>
                             <label className="text-sm font-medium text-gray-700 block mb-2">
                                 Confirm New Password
@@ -225,7 +280,6 @@ export const ProfilePage = () => {
                         </div>
                     </div>
 
-                    {/* Action Buttons */}
                     <div className="flex items-center gap-3 mt-8 pt-6 border-t border-gray-200">
                         <Button
                             onClick={handlePasswordChange}
@@ -234,7 +288,7 @@ export const ProfilePage = () => {
                         >
                             {isChangingPass ? (
                                 <>
-                                    <LoadingSkeleton />
+                                    <Spinner className="w-4 h-4 mr-2" />
                                     Changing...
                                 </>
                             ) : (
@@ -257,7 +311,6 @@ export const ProfilePage = () => {
                 </div>
             )}
 
-            {/* Profile Information */}
             {!isChangingPassword && (
                 <div className="bg-white rounded-lg border border-gray-200 p-8">
                     <div className="flex items-center gap-2 mb-8">
@@ -267,9 +320,7 @@ export const ProfilePage = () => {
                         </h2>
                     </div>
 
-
                     <div className="space-y-8">
-                        {/* Username */}
                         <div>
                             <div className="flex items-center gap-2 mb-3">
                                 <User className="h-4 w-4 text-gray-600" />
@@ -291,13 +342,13 @@ export const ProfilePage = () => {
                             ) : (
                                 <div className="bg-gray-50 border border-gray-200 rounded-md px-4 py-3">
                                     <p className="text-gray-900 font-medium">
-                                        {profile?.username || "superadmin"}
+                                        {profile?.username || "superadmin"
+                                        }
                                     </p>
                                 </div>
                             )}
                         </div>
 
-                        {/* Phone */}
                         <div>
                             <div className="flex items-center gap-2 mb-3">
                                 <Phone className="h-4 w-4 text-gray-600" />
@@ -327,7 +378,6 @@ export const ProfilePage = () => {
                             )}
                         </div>
 
-                        {/* Role */}
                         <div>
                             <div className="flex items-center gap-2 mb-3">
                                 <Shield className="h-4 w-4 text-gray-600" />
@@ -337,14 +387,11 @@ export const ProfilePage = () => {
                             </div>
                             <div>
                                 <span className="inline-flex items-center px-4 py-1.5 bg-red-50 text-red-700 text-sm font-bold rounded border border-red-200">
-                                    {profile?.role?.toUpperCase() ||
-                                        "SUPERADMIN"}
+                                    {profile?.role?.toUpperCase() || "ADMIN"}
                                 </span>
                             </div>
                         </div>
 
-
-                        {/* Member Since */}
                         <div>
                             <div className="flex items-center gap-2 mb-3">
                                 <Calendar className="h-4 w-4 text-gray-600" />
@@ -356,30 +403,29 @@ export const ProfilePage = () => {
                                 <p className="text-gray-900 font-medium">
                                     {profile?.createdAt
                                         ? new Date(
-                                            profile.createdAt
-                                        ).toLocaleDateString("uz-UZ", {
-                                            day: "2-digit",
-                                            month: "long",
-                                            year: "numeric",
-                                            hour: "2-digit",
-                                            minute: "2-digit",
-                                        })
+                                              profile.createdAt
+                                          ).toLocaleDateString("uz-UZ", {
+                                              day: "2-digit",
+                                              month: "long",
+                                              year: "numeric",
+                                              hour: "2-digit",
+                                              minute: "2-digit",
+                                          })
                                         : "18 Dekabr 2025, 16:26"}
                                 </p>
                                 <p className="text-xs text-gray-500 mt-1.5">
                                     {profile?.createdAt
                                         ? new Date(
-                                            profile.createdAt
-                                        ).toLocaleTimeString("uz-UZ", {
-                                            hour: "2-digit",
-                                            minute: "2-digit",
-                                        })
+                                              profile.createdAt
+                                          ).toLocaleTimeString("uz-UZ", {
+                                              hour: "2-digit",
+                                              minute: "2-digit",
+                                          })
                                         : "16:26"}
                                 </p>
                             </div>
                         </div>
 
-                        {/* Last Updated */}
                         <div>
                             <label className="text-sm font-medium text-gray-700 block mb-3">
                                 Last Updated
@@ -388,32 +434,30 @@ export const ProfilePage = () => {
                                 <p className="text-gray-900 font-medium">
                                     {profile?.updatedAt
                                         ? new Date(
-                                            profile.updatedAt
-                                        ).toLocaleDateString("uz-UZ", {
-                                            day: "2-digit",
-                                            month: "long",
-                                            year: "numeric",
-                                            hour: "2-digit",
-                                            minute: "2-digit",
-                                        })
+                                              profile.updatedAt
+                                          ).toLocaleDateString("uz-UZ", {
+                                              day: "2-digit",
+                                              month: "long",
+                                              year: "numeric",
+                                              hour: "2-digit",
+                                              minute: "2-digit",
+                                          })
                                         : "05 Yanvar 2026, 17:23"}
                                 </p>
                                 <p className="text-xs text-gray-500 mt-1.5">
                                     {profile?.updatedAt
                                         ? new Date(
-                                            profile.updatedAt
-                                        ).toLocaleTimeString("uz-UZ", {
-                                            hour: "2-digit",
-                                            minute: "2-digit",
-                                        })
+                                              profile.updatedAt
+                                          ).toLocaleTimeString("uz-UZ", {
+                                              hour: "2-digit",
+                                              minute: "2-digit",
+                                          })
                                         : "17:23"}
                                 </p>
                             </div>
                         </div>
                     </div>
 
-
-                    {/* Save/Cancel Buttons */}
                     {isEditing && (
                         <div className="flex items-center gap-3 mt-8 pt-6 border-t border-gray-200">
                             <Button
@@ -423,7 +467,7 @@ export const ProfilePage = () => {
                             >
                                 {isUpdating ? (
                                     <>
-                                        <LoadingSkeleton  />
+                                        <Spinner className="w-4 h-4 mr-2" />
                                         Saving...
                                     </>
                                 ) : (

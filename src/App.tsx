@@ -1,35 +1,48 @@
-import { Route, Routes } from "react-router-dom"
-import Login from "./pages/auth/login"
-import { MainLayout } from "./layout/main-layout"
-import adminRoute from "./routes/admin-route"
-import { Dashboard } from "./pages/admin/dashboard/dashboard"
-import { TeacherLogin } from "./pages/teacher/login"
-import { TeacherOTPVerify } from "./pages/teacher/otp-verify"
-import { TeacherDashboard } from "./pages/teacher/dashboard/dashboard"
-import { Toaster } from 'sonner'
-
+import { Route, Routes } from "react-router-dom";
+import { MainLayout } from "./layout/main-layout";
+import adminRoute from "./routes/admin-route";
+import { Dashboard } from "./pages/admin/dashboard/dashboard";
+import { TeacherLogin } from "./pages/teacher/login";
+import { TeacherOTPVerify } from "./pages/teacher/otp-verify";
+import { TeacherDashboard } from "./pages/teacher/dashboard/dashboard";
+import { Toaster } from "sonner";
+import RoleSelect from "./landing/selct-role";
+import Login from "./pages/auth/login";
+import { TeacherLayout } from "./layout/teacher-layout";
+import teacherRoute from "./routes/teacher-route";
+import Telegram from "./pages/student/telegram";
 
 function App() {
   return (
     <>
       <Toaster richColors position="top-right" />
       <Routes>
-        <Route path="/" element={<Login />} />
+
+        <Route path="/" element={<RoleSelect />} />
+
+        <Route path="/telegram" element={<Telegram />} />
 
         <Route path="/teacher/login" element={<TeacherLogin />} />
         <Route path="/teacher/otp-verify" element={<TeacherOTPVerify />} />
-        <Route path="/teacher/dashboard" element={<TeacherDashboard />} />
+
+      <Route path="/teacher" element={<TeacherLayout />}>
+  <Route index element={<TeacherDashboard />} />  {/* /teacher */}
+  {teacherRoute.map(({ page: Page, path }) => (
+    <Route key={path} path={path} element={<Page />} />
+  ))}
+</Route>
+
+
+
+        <Route path="/admin/login" element={<Login />} />
 
         <Route path="/app" element={<MainLayout />}>
           <Route path="admin">
             <Route index element={<Dashboard />} />
-
             {adminRoute.map(({ page: Page, path }) => (
               <Route key={path} path={path} element={<Page />} />
             ))}
-
           </Route>
-
 
           <Route path="superadmin">
             <Route index element={<Dashboard />} />
@@ -42,7 +55,7 @@ function App() {
         <Route path="*" element={<div>404 - Page Not Found</div>} />
       </Routes>
     </>
-  )
+  );
 }
 
-export default App
+export default App;

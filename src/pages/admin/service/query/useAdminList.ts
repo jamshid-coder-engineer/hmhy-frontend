@@ -1,8 +1,18 @@
 import { request } from "../../../../config/request";
 import { useQuery } from "@tanstack/react-query";
-export const useAdminList = () => {
+
+export const useAdminList = (page: number = 1, limit: number = 10) => {
     return useQuery({
-        queryKey: ["adminList"],
-        queryFn: () => request.get("/admin").then((res) => res.data),
+        queryKey: ["adminList", page, limit],
+
+        queryFn: () =>
+            request
+                .get("/admin", {
+                    params: {
+                        page,
+                        limit,
+                    },
+                })
+                .then((res) => res.data),
     });
 };

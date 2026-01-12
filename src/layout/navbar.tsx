@@ -24,13 +24,14 @@ export function AppSidebar({ role }: { role: Role }) {
     return (
         <Sidebar className="border-r">
             <SidebarHeader className="items-center h-20 p-3 bg-cyan-950">
-                <Link to={`/app/${role}`}>
+                <Link to={role === 'teacher' ? '/teacher' : `/app/${role}`}>
                     <div className="flex items-center mt-4 font-medium">
-                        <h1 className="text-white text-4xl  italic">HM</h1>
-                        <h1 className="text-emerald-400 text-4xl  italic">H</h1>
-                        <h1 className="text-cyan-500 text-4xl  italic">Y</h1>
+                        <h1 className="text-white text-4xl italic">HM</h1>
+                        <h1 className="text-emerald-400 text-4xl italic">H</h1>
+                        <h1 className="text-cyan-500 text-4xl italic">Y</h1>
                     </div>
                 </Link>
+
             </SidebarHeader>
 
             <SidebarContent>
