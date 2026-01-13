@@ -2,7 +2,11 @@ import type { LoginResponse }  from "../pages/auth/types";
 import axios from "axios";
 
 export const BASE_URL =  'http://localhost:5000/api/v1'
-const request = axios.create({baseURL:BASE_URL
+const request = axios.create({
+  baseURL: BASE_URL,
+  headers: {
+    'ngrok-skip-browser-warning': 'true', 
+  }
 })
 request.interceptors.request.use((config) => {
     const token = localStorage.getItem("token"); 

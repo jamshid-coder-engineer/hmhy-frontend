@@ -1,0 +1,11 @@
+
+  version: "2"
+  authtoken: 3745o5jPUN5E3sVpglppDyEnQxp_Zd78y6RLfzyU3fwtieBd
+  tunnels:
+  frontend:
+    proto: http
+    addr: 5173
+  backend:
+    proto: http
+    addr: 5000
+  region: in

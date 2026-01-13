@@ -10,30 +10,43 @@ import RoleSelect from "./landing/selct-role";
 import Login from "./pages/auth/login";
 import { TeacherLayout } from "./layout/teacher-layout";
 import teacherRoute from "./routes/teacher-route";
-import Telegram from "./pages/student/telegram";
+import StudentDashboard from "./pages/student/dashboard/dashboard";
+import studentRoute from "./routes/student-route";
+import { StudentLayout } from "./layout/student-layout";
+import StudentLogin from "./pages/student/login";
+import Telegram from "./pages/student/telegram"; // 👈 Import qo'shing
 
 function App() {
   return (
     <>
       <Toaster richColors position="top-right" />
       <Routes>
-
+        {/* Landing Page */}
         <Route path="/" element={<RoleSelect />} />
 
-        <Route path="/telegram" element={<Telegram />} />
+        {/* Student Routes */}
+        <Route path="/telegram" element={<Telegram />} /> {/* 👈 Qo'shildi */}
+        <Route path="/student/login" element={<StudentLogin />} />
+        
+        <Route path="/student" element={<StudentLayout />}>
+          <Route index element={<StudentDashboard />} />
+          {studentRoute.map(({ page: Page, path }) => (
+            <Route key={path} path={path} element={<Page />} />
+          ))}
+        </Route>
 
+        {/* Teacher Routes */}
         <Route path="/teacher/login" element={<TeacherLogin />} />
         <Route path="/teacher/otp-verify" element={<TeacherOTPVerify />} />
 
-      <Route path="/teacher" element={<TeacherLayout />}>
-  <Route index element={<TeacherDashboard />} />  {/* /teacher */}
-  {teacherRoute.map(({ page: Page, path }) => (
-    <Route key={path} path={path} element={<Page />} />
-  ))}
-</Route>
+        <Route path="/teacher" element={<TeacherLayout />}>
+          <Route index element={<TeacherDashboard />} />
+          {teacherRoute.map(({ page: Page, path }) => (
+            <Route key={path} path={path} element={<Page />} />
+          ))}
+        </Route>
 
-
-
+        {/* Admin Routes */}
         <Route path="/admin/login" element={<Login />} />
 
         <Route path="/app" element={<MainLayout />}>

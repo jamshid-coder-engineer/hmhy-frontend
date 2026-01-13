@@ -18,7 +18,7 @@ export interface LoginResponse {
   };
 }
 
-export type Role = "admin" | "teacher" | "superadmin";
+export type Role = "admin" | "teacher" | "superadmin" | "student";
 
 // Enums - const assertion bilan (erasableSyntaxOnly compatible)
 export const AuthProvider = {
@@ -212,4 +212,5 @@ export interface TeacherDetailsResponse {
         completedLessons: number;
         totalEarnings: number;
     };
+
 }
