@@ -1,8 +1,8 @@
 // src/hooks/useLessons.ts
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import type { UseQueryResult, UseMutationResult } from '@tanstack/react-query';
-import { teacherQueries } from '../pages/admin/lesson/services/teacher.queries';
-import { lessonQueries } from '../pages/admin/lesson/services/lesson.queries';
+import { teacherQueries } from '../pages/teacher/lesson/services/teacher.queries';
+import { lessonQueries } from '../pages/teacher/lesson/services/lesson.queries';
 import type {
     ApiResponse,
     Teacher,
@@ -98,12 +98,10 @@ export const useToggleTeacherStatus = (): UseMutationResult<
 
 // ==================== LESSONS HOOKS ====================
 
-export const useLessons = (
-  filters?: LessonFilters
-): UseQueryResult<ApiResponse<LessonsResponse>, Error> => {
+export const useLessons = (): UseQueryResult<LessonsResponse, Error> => {
   return useQuery({
-    queryKey: ['lessons', filters],
-    queryFn: () => lessonQueries.getLessons(filters),
+    queryKey: ['lessons'],
+    queryFn: () => lessonQueries.getLessons(),
     placeholderData: (prev) => prev,
   });
 };
@@ -112,7 +110,7 @@ export const useTeacherLessons = (
   teacherId: string,
   filters?: LessonFilters,
   enabled: boolean = true
-): UseQueryResult<ApiResponse<LessonsResponse>, Error> => {
+): UseQueryResult<LessonsResponse, Error> => {
   return useQuery({
     queryKey: ['teacher-lessons', teacherId, filters],
     queryFn: () => lessonQueries.getTeacherLessons(teacherId, filters),

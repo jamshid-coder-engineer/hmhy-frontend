@@ -3,7 +3,8 @@ import { useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
 import { request } from '../../config/request'
 
-const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api/v1'
+const BASE_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000'
+
 
 export const TeacherLogin = () => {
   console.log('🟢 TEACHER LOGIN COMPONENT RENDERED!')
@@ -25,12 +26,10 @@ export const TeacherLogin = () => {
 
 console.log('LOGIN RESPONSE:', res.data)
 
-// 🔥 TOKEN TO‘G‘RIDAN-TO‘G‘RI data ICHIDA
 const token = res.data.data
 
-// agar role token ichida bo‘lsa (JWT payload)
 localStorage.setItem('token', token)
-localStorage.setItem('role', 'teacher') // vaqtincha QATTIQ yozamiz
+localStorage.setItem('role', 'teacher') 
 
 toast.success('Login successful!')
 navigate('/teacher/dashboard')
@@ -44,11 +43,10 @@ navigate('/teacher/dashboard')
 }
 
 
-  const handleGoogleLogin = () => {
-    console.log('🔗 Redirecting to Google OAuth')
-    window.location.href = `${BASE_URL}/teacher/google`
-  }
-
+ const handleGoogleLogin = () => {
+  console.log('🔗 Redirecting to Google OAuth')
+  window.location.href = `${BASE_URL}/api/v1/teacher/google`
+}
   return (
     <div style={{
       position: 'fixed',
@@ -66,7 +64,6 @@ navigate('/teacher/dashboard')
         boxShadow: '0 20px 60px rgba(0,0,0,0.3)',
         padding: '40px'
       }}>
-        {/* Header */}
         <div style={{ textAlign: 'center', marginBottom: '32px' }}>
           <h1 style={{ fontSize: '36px', fontWeight: 'bold', color: '#1a202c', margin: 0 }}>
             HMHY
@@ -74,7 +71,6 @@ navigate('/teacher/dashboard')
           <p style={{ color: '#718096', marginTop: '8px' }}>Teacher Portal</p>
         </div>
 
-        {/* Welcome */}
         <div style={{ textAlign: 'center', marginBottom: '32px' }}>
           <h2 style={{ fontSize: '24px', fontWeight: '600', color: '#2d3748' }}>
             Welcome Back! 👋
@@ -82,7 +78,6 @@ navigate('/teacher/dashboard')
           <p style={{ color: '#718096', marginTop: '8px' }}>Sign in to continue</p>
         </div>
 
-        {/* Google Button */}
         <button
           onClick={handleGoogleLogin}
           type='button'
@@ -106,14 +101,12 @@ navigate('/teacher/dashboard')
           Continue with Google
         </button>
 
-        {/* Divider */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '24px' }}>
           <div style={{ flex: 1, height: '1px', backgroundColor: '#e2e8f0' }} />
           <span style={{ fontSize: '14px', color: '#718096' }}>or</span>
           <div style={{ flex: 1, height: '1px', backgroundColor: '#e2e8f0' }} />
         </div>
 
-        {/* Email Input */}
         <div style={{ marginBottom: '16px' }}>
           <label style={{ display: 'block', fontSize: '14px', fontWeight: '500', marginBottom: '4px' }}>
             Email Address
@@ -136,7 +129,6 @@ navigate('/teacher/dashboard')
           />
         </div>
 
-        {/* Password Input */}
         <div style={{ marginBottom: '24px' }}>
           <label style={{ display: 'block', fontSize: '14px', fontWeight: '500', marginBottom: '4px' }}>
             Password
@@ -160,7 +152,6 @@ navigate('/teacher/dashboard')
           />
         </div>
 
-        {/* Sign In Button */}
         <button
           onClick={handleLogin}
           disabled={loading}
@@ -181,7 +172,6 @@ navigate('/teacher/dashboard')
           {loading ? 'Signing in...' : 'Sign In'}
         </button>
 
-        {/* Footer */}
         <div style={{ textAlign: 'center', fontSize: '12px', color: '#718096', marginBottom: '16px' }}>
           By continuing, you agree to HMHY's Terms of Service and Privacy Policy
         </div>

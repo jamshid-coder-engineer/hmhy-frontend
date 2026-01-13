@@ -48,18 +48,21 @@ const TeacherLessonsPage = () => {
     console.log(lessonsData)
 
     const teacher = teacherData?.data?.teacher;
-    const lessons = lessonsData?.data?.data || [];
+    const lessons = lessonsData?.data || [];
 
-    const pagination = lessonsData?.data
+    const pagination = lessonsData
         ? {
-            currentPage: lessonsData.data.currentPage,
-            totalPages: lessonsData.data.totalPages,
-            totalElements: lessonsData.data.totalElements,
-            pageSize: lessonsData.data.pageSize,
-            from: lessonsData.data.from,
-            to: lessonsData.data.to,
+            currentPage: lessonsData.currentPage,
+            totalPages: lessonsData.totalPages,
+            totalElements: lessonsData.totalElements,
+            pageSize: lessonsData.pageSize,
+            from: lessonsData.from,
+            to: lessonsData.to,
         }
         : null;
+
+        console.log(lessons)
+        console.log(pagination)
 
     const handleStatusFilter = (status: LessonStatus | '') => {
         setLessonFilters((prev: LessonFilters) => ({ ...prev, status, page: 1 }));

@@ -3,7 +3,7 @@ import  Lesson  from "../pages/admin/lesson/lesson";
 import TeacherLessonsPage from "../pages/admin/lessonDetail/TeacherLessonsPage";
 import { Payment } from "../pages/admin/payment/payment";
 import { ProfilePage } from "../pages/admin/profile/profile";
-import { Student } from "../pages/admin/student/student";
+import Student from "../pages/admin/student/student";
 import { TeacherPage } from "../pages/admin/teacher/teacher";
 
 export default [
@@ -25,7 +25,7 @@ export default [
     },
     {
         path: "student",
-        page: Student
+        page: Student,
     },
     {
         path: "lesson",

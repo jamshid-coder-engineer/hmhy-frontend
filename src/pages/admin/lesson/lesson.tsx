@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { Search, Filter, ArrowUpDown } from 'lucide-react';
 import { useTeachers } from '../../../hooks/use-lesson';
-import type { SortField, Teacher, TeacherFilters } from '../../auth/types';
+import type { SortField, TeacherFilters } from '../../auth/types';
 import TeacherCard from '../../admin/lesson/components/TeacherCard';
 
 const Lesson = () => {
@@ -45,13 +45,11 @@ const Lesson = () => {
         <div className="min-h-screen bg-gray-50 p-6">
             <div className="max-w-7xl mx-auto">
 
-                {/* Header */}
                 <div className="mb-6">
                     <h1 className="text-2xl font-bold text-gray-900">Teachers</h1>
                     <p className="text-gray-600">View and manage all teachers</p>
                 </div>
 
-                {/* Filters */}
                 <div className="bg-white rounded-lg shadow-sm p-5 mb-6">
                     <div className="flex flex-col lg:flex-row gap-4">
 
@@ -103,10 +101,8 @@ const Lesson = () => {
                     </div>
                 </div>
 
-                {/* Loading */}
                 {isLoading && <div className="text-center py-10">Loading...</div>}
 
-                {/* Grid */}
                 {!isLoading && teachers.length > 0 && (
                     <>
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mb-8">

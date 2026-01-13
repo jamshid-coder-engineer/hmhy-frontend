@@ -1,4 +1,4 @@
-import Lesson from "../pages/admin/lesson/lesson";
+import Lesson from "../pages/teacher/lesson/lesson";
 import { TeacherDashboard } from "../pages/teacher/dashboard/dashboard";
 import { TeacherProfile } from "../pages/teacher/profile/profile";
 import { Student } from "../pages/teacher/student/student";

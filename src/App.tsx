@@ -14,18 +14,17 @@ import StudentDashboard from "./pages/student/dashboard/dashboard";
 import studentRoute from "./routes/student-route";
 import { StudentLayout } from "./layout/student-layout";
 import StudentLogin from "./pages/student/login";
-import Telegram from "./pages/student/telegram"; // 👈 Import qo'shing
+import Telegram from "./pages/student/telegram";
 
 function App() {
   return (
     <>
       <Toaster richColors position="top-right" />
       <Routes>
-        {/* Landing Page */}
+       
         <Route path="/" element={<RoleSelect />} />
 
-        {/* Student Routes */}
-        <Route path="/telegram" element={<Telegram />} /> {/* 👈 Qo'shildi */}
+        <Route path="/telegram" element={<Telegram />} /> 
         <Route path="/student/login" element={<StudentLogin />} />
         
         <Route path="/student" element={<StudentLayout />}>
@@ -35,7 +34,6 @@ function App() {
           ))}
         </Route>
 
-        {/* Teacher Routes */}
         <Route path="/teacher/login" element={<TeacherLogin />} />
         <Route path="/teacher/otp-verify" element={<TeacherOTPVerify />} />
 
@@ -46,7 +44,6 @@ function App() {
           ))}
         </Route>
 
-        {/* Admin Routes */}
         <Route path="/admin/login" element={<Login />} />
 
         <Route path="/app" element={<MainLayout />}>
