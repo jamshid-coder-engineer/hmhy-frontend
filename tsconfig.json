@@ -9,8 +9,9 @@
     "paths": {
       "@/*": ["./src/*"]
     },
-    "noUnusedLocals": false,
+   "noUnusedLocals": false,
     "noUnusedParameters": false,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "ignoreDeprecations": "5.0"
   }
 }
