@@ -10,9 +10,10 @@ export const TeacherLogin = () => {
   console.log('🟢 TEACHER LOGIN COMPONENT RENDERED!')
 
   const navigate = useNavigate()
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  const [email, setEmail] = useState('saribayevj1666@gmail.com')
+  const [password, setPassword] = useState('qwerty12')
   const [loading, setLoading] = useState(false)
+  const [showPassword, setShowPassword] = useState(false)
 
   const handleLogin = async () => {
   if (!email || !password) {
@@ -23,7 +24,7 @@ export const TeacherLogin = () => {
   setLoading(true)
   try {
    const res = await request.post('/signin/teacher', { email, password })
-
+email
 console.log('LOGIN RESPONSE:', res.data)
 
 const token = res.data.data
@@ -133,23 +134,45 @@ navigate('/teacher/lesson')
           <label style={{ display: 'block', fontSize: '14px', fontWeight: '500', marginBottom: '4px' }}>
             Password
           </label>
-          <input
-            type='password'
-            autoComplete='current-password'
-            placeholder='Enter your password'
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            onKeyPress={(e) => e.key === 'Enter' && handleLogin()}
-            disabled={loading}
-            style={{
-              width: '100%',
-              padding: '12px',
-              border: '1px solid #e2e8f0',
-              borderRadius: '8px',
-              fontSize: '16px',
-              boxSizing: 'border-box'
-            }}
-          />
+          <div style={{ position: 'relative' }}>
+            <input
+              type={showPassword ? 'text' : 'password'}
+              autoComplete='current-password'
+              placeholder='Enter your password'
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              onKeyPress={(e) => e.key === 'Enter' && handleLogin()}
+              disabled={loading}
+              style={{
+                width: '100%',
+                padding: '12px 44px 12px 12px',
+                border: '1px solid #e2e8f0',
+                borderRadius: '8px',
+                fontSize: '16px',
+                boxSizing: 'border-box'
+              }}
+            />
+            <button
+              type='button'
+              onClick={() => setShowPassword((prev) => !prev)}
+              aria-label={showPassword ? 'Hide password' : 'Show password'}
+              disabled={loading}
+              style={{
+                position: 'absolute',
+                right: '10px',
+                top: '50%',
+                transform: 'translateY(-50%)',
+                background: 'transparent',
+                border: 'none',
+                cursor: loading ? 'not-allowed' : 'pointer',
+                fontSize: '16px',
+                color: '#718096',
+                padding: '4px'
+              }}
+            >
+              {showPassword ? '🙈' : '👁️'}
+            </button>
+          </div>
         </div>
 
         <button

@@ -87,7 +87,7 @@ export const Dashboard = () => {
   return (
     <div className='space-y-4 bg-[#f8faff] min-h-screen'>
       
-      <div className='relative overflow-hidden rounded-3xl bg-cyan-950 p-8 text-white shadow-2xl'>
+      <div className='relative overflow-hidden rounded-3xl bg-cyan-800 p-8 text-white shadow-2xl'>
         <div className='relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6'>
           <div>
             <div className='flex items-center gap-2 mb-2'>

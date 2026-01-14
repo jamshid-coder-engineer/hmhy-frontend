@@ -52,7 +52,7 @@ export function AppSidebar({ role }: { role: Role }) {
                 </SidebarGroupContent>
             </SidebarContent>
 
-            <SidebarFooter className="p-4 border-t">
+            <SidebarFooter className="p-4 bg-cyan-950 pt-8 pb-8">
                 <Button
                     variant="destructive"
                     className="w-full flex items-center gap-2 justify-center"

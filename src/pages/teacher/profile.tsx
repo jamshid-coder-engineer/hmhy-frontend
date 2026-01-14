@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Edit3, Lock, Loader2 } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Edit3, ImagePlus, Lock, RefreshCw, Trash2, Loader2 } from "lucide-react";
 import { Button } from "../../components/ui/button";
 import { Input } from "../../components/ui/input";
 import { Label } from "../../components/ui/label";
@@ -33,6 +33,8 @@ export const TeacherProfile = () => {
         specification: "" as SpecificationType | "",
         description: "",
     });
+    const [avatarFile, setAvatarFile] = useState<File | null>(null);
+    const [avatarPreview, setAvatarPreview] = useState("");
 
     const [passwordData, setPasswordData] = useState({
         currentPassword: "",
@@ -44,6 +46,14 @@ export const TeacherProfile = () => {
     const { mutate: updateProfile, isPending: isUpdating } = useEditProfile();
     const { mutate: changePassword, isPending: isChangingPass } =
         useChangePassword();
+
+    useEffect(() => {
+        return () => {
+            if (avatarPreview) {
+                URL.revokeObjectURL(avatarPreview);
+            }
+        };
+    }, [avatarPreview]);
 
     if (isLoading) return <ProfileSkeleton />;
     if (error || !profile)
@@ -70,6 +80,8 @@ export const TeacherProfile = () => {
     const handleCancel = () => {
         setIsEditing(false);
         setIsChangingPassword(false);
+        setAvatarFile(null);
+        setAvatarPreview("");
         setPasswordData({
             currentPassword: "",
             newPassword: "",
@@ -84,10 +96,22 @@ export const TeacherProfile = () => {
                 ? Number(editedData.hourPrice)
                 : undefined,
         };
-        updateProfile(payload, {
+        const hasAvatar = Boolean(avatarFile);
+        const requestData = hasAvatar ? new FormData() : payload;
+        if (hasAvatar && avatarFile) {
+            Object.entries(payload).forEach(([key, value]) => {
+                if (value !== undefined) {
+                    requestData.append(key, String(value));
+                }
+            });
+            requestData.append("image", avatarFile);
+        }
+        updateProfile(requestData, {
             onSuccess: () => {
                 toast.success("Yangilandi!", { position: "top-right" });
                 setIsEditing(false);
+                setAvatarFile(null);
+                setAvatarPreview("");
                 refetch();
             },
             onError: (err: any) =>
@@ -152,19 +176,71 @@ export const TeacherProfile = () => {
 
                 <Card className="overflow-hidden border-none shadow-sm bg-white">
                     <div className="h-24 w-full bg-linear-to-r from-slate-100 to-slate-200" />
-                    <div className="px-8 pb-6">
-                        <div className="relative -top-12 flex flex-col items-center sm:flex-row sm:items-end sm:gap-6">
-                            <Avatar className="h-24 w-24 border-4 border-white shadow-md">
-                                <AvatarImage src={profile?.imageUrl} />
-                                <AvatarFallback className="bg-slate-200">
-                                    {profile?.fullName?.charAt(0)}
-                                </AvatarFallback>
-                            </Avatar>
+                    <div className="px-8 py-6">
+                        <div className="relative flex flex-col items-center sm:flex-row sm:items-center sm:gap-10">
+                            <div className="flex flex-col items-center">
+                                <Avatar className="h-20 w-20 border-4 border-white shadow-md">
+                                    <AvatarImage
+                                        src={avatarPreview || profile?.imageUrl}
+                                    />
+                                    <AvatarFallback className="bg-slate-200">
+                                        {profile?.fullName?.charAt(0)}
+                                    </AvatarFallback>
+                                </Avatar>
+                                {isEditing && (
+                                    <div className="mt-3 flex items-center gap-2">
+                                        <input
+                                            id="avatar-upload"
+                                            type="file"
+                                            accept="image/*"
+                                            className="hidden"
+                                            onChange={(e) => {
+                                                const file =
+                                                    e.target.files?.[0];
+                                                if (!file) return;
+                                                setAvatarFile(file);
+                                                setAvatarPreview(
+                                                    URL.createObjectURL(file)
+                                                );
+                                            }}
+                                        />
+                                        <label
+                                            htmlFor="avatar-upload"
+                                            className="inline-flex h-5 w-5 cursor-pointer items-center justify-center rounded-full border border-slate-200 bg-white text-slate-900 shadow-sm transition hover:bg-slate-50"
+                                            aria-label="Rasm yuklash"
+                                            title="Rasm yuklash"
+                                        >
+                                            <ImagePlus className="h-4 w-4" />
+                                        </label>
+                                        <label
+                                            htmlFor="avatar-upload"
+                                            className="inline-flex h-5 w-5 cursor-pointer items-center justify-center rounded-full border border-slate-200 bg-white text-slate-900 shadow-sm transition hover:bg-slate-50"
+                                            aria-label="Rasmni yangilash"
+                                            title="Rasmni yangilash"
+                                        >
+                                            <RefreshCw className="h-4 w-4" />
+                                        </label>
+                                        <Button
+                                            type="button"
+                                            variant="outline"
+                                            onClick={() => {
+                                                setAvatarFile(null);
+                                                setAvatarPreview("");
+                                            }}
+                                            className="h-5 w-5 rounded-full p-0"
+                                            aria-label="Remove"
+                                            title="Remove"
+                                        >
+                                            <Trash2 className="h-4 w-4" />
+                                        </Button>
+                                    </div>
+                                )}
+                            </div>
                             <div className="mt-4 sm:mt-0 text-center sm:text-left pb-2">
-                                <h2 className="text-2xl font-bold text-slate-900">
+                                <h2 className="text-4xl font-bold text-slate-900">
                                     {profile?.fullName}
                                 </h2>
-                                <p className="text-sm text-slate-500">
+                                <p className="text-shadow-md text-slate-500">
                                     {profile?.email}
                                 </p>
                             </div>
