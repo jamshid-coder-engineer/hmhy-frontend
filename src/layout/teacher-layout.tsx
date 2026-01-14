@@ -15,18 +15,20 @@ export const TeacherLayout = () => {
   }
 
   console.log('🟢 ACCESS GRANTED')
-
   return (
-    <SidebarProvider>
-      <AppSidebar role="teacher" />
-      <main className='grow w-full'>
-        <div className='p-3 border-b'>
-          <SidebarTrigger className='cursor-pointer border border-black p-2'/>
-        </div>
-        <div className='p-8 bg-gray-100 min-h-screen'>
-          <Outlet />
-        </div>
-      </main>
-    </SidebarProvider>
-  )
+  <SidebarProvider>
+    <AppSidebar role="teacher" />
+
+    <main className="flex-1 min-w-0">
+      <div className="p-3 border-b">
+        <SidebarTrigger className="cursor-pointer border border-black p-2" />
+      </div>
+
+      <div className="px-6 py-6 bg-gray-100 min-h-screen">
+        <Outlet />
+      </div>
+    </main>
+  </SidebarProvider>
+)
+
 }

@@ -27,7 +27,6 @@ export interface StudentStats {
   blockedStudents: number;
 }
 
-// Barcha studentlar ro'yxati
 export const useStudentList = () => {
   return useQuery({
     queryKey: ["student_list"],
@@ -36,7 +35,6 @@ export const useStudentList = () => {
   });
 };
 
-// Bitta student ma'lumoti
 export const useStudentDetail = (id: string) => {
   return useQuery({
     queryKey: ["student_detail", id],
@@ -45,12 +43,10 @@ export const useStudentDetail = (id: string) => {
     enabled: !!id,
   });
 };
-
-// Student statistikasi
 export const useStudentStats = () => {
-  return useQuery({
+  return useQuery<StudentStats>({
     queryKey: ["student_stats"],
     queryFn: () =>
-      request.get<ApiResponse<StudentStats>>("/student/stats").then((res) => res.data),
+      request.get<StudentStats>("/student/stats").then((res) => res.data),
   });
 };

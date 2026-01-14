@@ -1,23 +1,30 @@
-export interface EditProfile {
-    username: string;
-    phoneNumber: string;
+import type { LucideIcon } from "lucide-react";
+
+export interface MessageTranslations {
+    uz: string;
+    en: string;
+    ru: string;
 }
 
-export interface ChangePassword {
-    currentPassword: string;
-    newPassword: string;
+export interface PaginationData {
+    currentPage: number;
+    totalPages: number;
+    totalElements: number;
+    pageSize: number;
+    from: number;
+    to: number;
 }
 
-export type EditAdmin = {
-    username?: string;
-    phone?: string;
-    password?: string;
-};
+export interface ApiResponse<T> extends Partial<PaginationData> {
+    statusCode: number;
+    message: MessageTranslations;
+    data: T;
+}
 
-export type SortField = "username" | "createdDate" | "updatedDate";
 export type SortOrder = "asc" | "desc";
 
 export interface Admin {
+    phoneNumber: any;
     id: string;
     username: string;
     phone: string;
@@ -26,17 +33,23 @@ export interface Admin {
     updatedAt: string;
 }
 
+export interface CreateAdmin {
+    username: string;
+    phoneNumber: string;
+    password: string;
+}
+
+export type EditAdmin = Partial<CreateAdmin>;
+
 export interface DetailsModalState {
     isOpen: boolean;
     admin: Admin | null;
 }
 
-export interface EditModalState {
-    isOpen: boolean;
-    admin: Admin | null;
+export interface EditModalState extends DetailsModalState {
     username: string;
     phone: string;
-    password: string;
+    password?: string;
 }
 
 export interface DeleteConfirmState {
@@ -44,58 +57,153 @@ export interface DeleteConfirmState {
     admin: Admin | null;
 }
 
-export interface AddAdminModalState {
-    isOpen: boolean;
-    username: string;
-    password: string;
-}
+export const TEACHER_SPECIFICATIONS = {
+    ENGLISH: "ENGLISH",
+    RUSSIAN: "RUSSIAN",
+    DEUTSCH: "DEUTSCH",
+    SPANISH: "SPANISH",
+    FRENCH: "FRENCH",
+    ITALIAN: "ITALIAN",
+    JAPANESE: "JAPANESE",
+    CHINESE: "CHINESE",
+    ARABIC: "ARABIC",
+    KOREAN: "KOREAN",
+} as const;
 
-export interface MessageTranslations {
-    uz: string;
-    en: string;
-    ru: string;
-}
+export type TeacherSpecification = keyof typeof TEACHER_SPECIFICATIONS;
+export const TEACHER_LEVELS = ["A1", "A2", "B1", "B2", "C1", "C2"] as const;
+export type TeacherLevel = (typeof TEACHER_LEVELS)[number];
 
-export interface Admin {
+export interface Teacher {
     id: string;
-    username: string;
+    name: string;
+    fullName: string;
+    email: string;
     phoneNumber: string;
+    imageUrl: string;
+    isActive: boolean;
+    status: string;
+    language: string;
+    specification: TeacherSpecification | null;
+    level: TeacherLevel | null;
+    description: string | null;
+    hourPrice: number | null;
+    price: number;
+    rating: string;
+    experience: string | null;
+    portfolioLink: string | null;
+    lessonsCount: number;
+    createdAt: string;
+    updatedAt: string;
 }
 
-export interface AdminListResponse {
-    statusCode: number;
-    message: {
-        uz: string;
-        en: string;
-        ru: string;
-    };
-    data: Admin[];
-}
-
-export interface CreateAdmin {
-    username: string;
+export interface EditProfile {
+    fullName: string;
     phoneNumber: string;
-    password: string;
+    language: string;
+    specification: TeacherSpecification | null;
+    level: TeacherLevel | null;
+    description: string | null;
+    hourPrice: number | null;
+    experience: string | null;
+    portfolioLink: string | null;
 }
 
+export interface ChangePassword {
+    currentPassword: string;
+    newPassword: string;
+}
+
+export type TeacherSortField =
+    | "name"
+    | "email"
+    | "rating"
+    | "price"
+    | "lessons"
+    | "createdAt";
+
+export interface TeacherFilters {
+    search?: string;
+    specification?: TeacherSpecification | "";
+    level?: TeacherLevel | "";
+    minRating?: number;
+    maxRating?: number;
+    minPrice?: number;
+    maxPrice?: number;
+    isActive?: boolean;
+    sortBy?: TeacherSortField;
+    sortOrder?: SortOrder;
+    page?: number;
+    limit?: number;
+}
+
+export const LessonStatus = {
+    AVAILABLE: "AVAILABLE",
+    BOOKED: "BOOKED",
+    COMPLETED: "COMPLETED",
+    CANCELLED: "CANCELLED",
+} as const;
+
+export type LessonStatus = (typeof LessonStatus)[keyof typeof LessonStatus];
+
+export type TeacherSpecificationForLesson =
+    (typeof TEACHER_SPECIFICATIONS)[keyof typeof TEACHER_SPECIFICATIONS];
+export interface Student {
+    lastName: any;
+    firstName: any;
+    id: string;
+    firstname: string;
+    lastname: string;
+    phone: string;
+    email: string;
+    bio?: string;
+    languageCode?: string;
+    timezone?: string;
+}
+
+export interface Lesson {
+    id: string;
+    name: string;
+    startTime: string;
+    endTime: string;
+    teacherId: string;
+    studentId?: string;
+    googleMeetUrl?: string;
+    status: LessonStatus;
+    googleEventId?: string;
+    price: number;
+    isPaid: boolean;
+    bookedAt?: string;
+    completedAt?: string;
+    createdAt: string;
+    updatedAt: string;
+    teacher?: Teacher;
+    student?: Student;
+}
+
+
+export interface LessonFilters {
+    teacherId?: string;
+    studentId?: string;
+    status?: LessonStatus | "";
+    dateFrom?: string;
+    dateTo?: string;
+    isPaid?: boolean;
+    sortBy?: "startTime" | "price" | "createdAt";
+    sortOrder?: SortOrder;
+    page?: number;
+    limit?: number;
+}
+
+// --- Dashboard & Payment Tiplari ---
 export interface DashboardStats {
     totalStudents: number;
     totalTeachers: number;
     totalLessons: number;
     totalRevenue: number;
     charts: {
-        lessonsByStatus: any[];
+        lessonsByStatus: { status: LessonStatus; count: number }[];
     };
-}
-
-export interface DashboardResponse {
-    statusCode: number;
-    message: {
-        uz: string;
-        en: string;
-        ru: string;
-    };
-    data: DashboardStats;
 }
 
 export interface PaymentStats {
@@ -110,63 +218,48 @@ export interface PaymentStats {
     transactions: Array<{
         id: string;
         date: string;
-        student: {
-            id: string;
-            name: string;
-        } | null;
-        teacher: {
-            id: string;
-            name: string;
-        } | null;
+        student: { id: string; name: string } | null;
+        teacher: { id: string; name: string } | null;
         amount: number;
         status: string;
         provider: string;
     }>;
 }
 
-export interface PaymentResponse {
+export interface StatsCardProps {
+    label: string;
+    value: number | string;
+    icon: LucideIcon;
+    iconColor: string;
+    labelColor: string;
+}
+
+export interface IStatsDetail {
+    amount: number;
+    count: number;
+}
+
+export interface ITeacherStats {
+    paid: IStatsDetail;
+    unpaid: IStatsDetail;
+    cancelled: IStatsDetail;
+}
+
+export interface LoginResponse {
     statusCode: number;
     message: {
         uz: string;
         en: string;
         ru: string;
     };
-    data: PaymentStats;
+    data: {
+        data: { role: string; accessToken: string };
+    };
 }
 
-export interface Teacher {
-    id: string;
-    language: string;
-    name: string;
-    status: string;
-    email: string;
-    phoneNumber: string;
-    fullName: string;
-    isActive: boolean;
-    specification: string | null;
-    level: string | null;
-    description: string | null;
-    hourPrice: number | null;
-    portfolioLink: string | null;
-    imageUrl: string;
-    rating: string;
-    experience: string | null;
+export interface AdminLoginInput {
+    username: string;
+    password: string;
 }
 
-export interface DeleteTeacher {
-    reason: string;
-}
-
-export interface TeacherDeleteModalProps {
-    teacher: any;
-    open: boolean;
-    onOpenChange: (open: boolean) => void;
-}
-
-export interface Props {
-    teacher: any;
-    open: boolean;
-    onOpenChange: (open: boolean) => void;
-    onConfirm: () => void;
-    isPending: boolean;
-}
+export type Role = "admin" | "teacher" | "superadmin";

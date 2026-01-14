@@ -9,9 +9,10 @@ import {
     Filter,
     Search,
 } from 'lucide-react';
-import { useTeacher, useTeacherLessons } from '../../../hooks/use-lesson';
 import { type Lesson, type LessonFilters, LessonStatus } from '../../auth/types';
 import LessonCard from '../lesson/components/LessonCard';
+import { useTeacher } from '../../teacher/service/query/useTeacherById';
+import { useTeacherLessons } from '../../teacher/service/query/useTeacherLessons';
 
 const TeacherLessonsPage = () => {
     const { id } = useParams();
@@ -196,7 +197,7 @@ const TeacherLessonsPage = () => {
                 {/* Lessons Error */}
                 {lessonsError && (
                     <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6 flex items-start gap-3">
-                        <AlertCircle className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
+                        <AlertCircle className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
                         <div>
                             <h3 className="text-red-800 font-semibold">Error</h3>
                             <p className="text-red-700 text-sm">{lessonsError.message}</p>

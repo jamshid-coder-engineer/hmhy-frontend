@@ -6,7 +6,6 @@ export const StudentLayout = () => {
   const token = localStorage.getItem("token")
   const role = localStorage.getItem("role")
 
-  // console.log("🔍 StudentLayout check:", { token: !!token, role });
 
   if (!token || role !== "student") {
     console.log("🔴 STUDENT REDIRECT TO /student/login")

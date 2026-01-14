@@ -73,26 +73,26 @@ export const links = {
     ],
 
   teacher: [
-    {
-        title: "Dashboard",
-        url: "/teacher/dashboard", 
+     {
+        title: "Lesson",
+        url: "/teacher/lesson",
+        icon: BookOpen,
+    },
+     {
+        title: "Table",
+        url: "/teacher/table", 
         icon: Home,
+    },
+    {
+        title: "Payment",
+        url: "/teacher/payment",
+        icon: DollarSign,
     },
     {
         title: "Profile",
         url: "/teacher/profile", 
         icon: User,
-    },
-    {
-        title: "Student",
-        url: "/teacher/student",
-        icon: Users,
-    },
-    {
-        title: "Lesson",
-        url: "/teacher/lesson",
-        icon: BookOpen,
-    },
+    }
 ],
 
 }

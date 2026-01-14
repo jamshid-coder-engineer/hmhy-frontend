@@ -17,7 +17,6 @@ import { StudentEditModal } from "./StudentEditModal";
 import { StudentBlockModal } from "./StudentBlockModal";
 import { StudentDeleteModal } from "./StudentDeleteModal";
 
-// Shadcn UI komponentlari
 import { Button } from "../../../components/ui/button";
 import { Input } from "../../../components/ui/input";
 import { Card, CardContent } from "../../../components/ui/card";
@@ -40,7 +39,11 @@ export default function StudentPage() {
   const [modalType, setModalType] = useState<"detail" | "edit" | "block" | "delete" | null>(null);
 
   const students: Student[] = Array.isArray(studentsData?.data) ? studentsData.data : [];
-  const stats = statsData?.data || { totalStudents: 0, activeStudents: 0, blockedStudents: 0 };
+const stats = statsData ?? {
+  totalStudents: 0,
+  activeStudents: 0,
+  blockedStudents: 0,
+};
 
   const filteredStudents = students.filter(
     (student) =>
@@ -76,7 +79,6 @@ export default function StudentPage() {
 
   return (
     <div className="p-6 space-y-6 bg-[#f8faff] min-h-screen">
-      {/* Header */}
       <div className="flex justify-between items-end">
         <div>
           <h1 className="text-3xl font-bold text-gray-900 tracking-tight">Students</h1>
@@ -84,7 +86,6 @@ export default function StudentPage() {
         </div>
       </div>
 
-      {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <StatsCard 
           title="Total Students" 
@@ -109,7 +110,6 @@ export default function StudentPage() {
         />
       </div>
 
-      {/* Filters & Search */}
       <Card className="border-none shadow-sm overflow-hidden">
         <CardContent className="p-4 flex flex-col md:flex-row gap-4">
           <div className="flex-1 relative">
@@ -137,7 +137,6 @@ export default function StudentPage() {
         </CardContent>
       </Card>
 
-      {/* Students List */}
       <div className="space-y-3">
         <div className="flex items-center justify-between px-2 text-xs font-bold text-gray-400 uppercase tracking-wider">
           <div className="flex gap-20">
@@ -162,7 +161,6 @@ export default function StudentPage() {
             <Card key={student.id} className="border-none shadow-sm hover:shadow-md transition-all duration-200 group">
               <CardContent className="p-4 flex items-center justify-between">
                 
-                {/* Left: Info */}
                 <div className="flex items-center gap-4 w-[30%]">
                   <div className="h-11 w-11 rounded-full bg-slate-100 flex items-center justify-center font-bold text-slate-500 border border-slate-200 uppercase">
                     {student.firstName[0]}{student.lastName[0]}
@@ -180,7 +178,6 @@ export default function StudentPage() {
                   </div>
                 </div>
 
-                {/* Middle: Contact */}
                 <div className="flex flex-col gap-1 w-[30%]">
                   <div className="flex items-center gap-2 text-sm font-semibold text-gray-700">
                     <MessageSquare className="w-3.5 h-3.5 text-blue-500" />
@@ -191,12 +188,10 @@ export default function StudentPage() {
                   </div>
                 </div>
 
-                {/* Right: Date */}
                 <div className="text-sm font-bold text-gray-500 w-[15%]">
                   {new Date(student.createdAt).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}
                 </div>
 
-                {/* Action Buttons */}
                 <div className="flex items-center gap-2 opacity-80 group-hover:opacity-100 transition-opacity">
                   <ActionButton icon={<Eye className="w-4 h-4" />} label="View" color="blue" onClick={() => openModal("detail", student.id)} />
                   <ActionButton icon={<Edit className="w-4 h-4" />} label="Edit" color="gray" onClick={() => openModal("edit", student.id)} />
@@ -209,7 +204,6 @@ export default function StudentPage() {
         )}
       </div>
 
-      {/* Modals - Bularni propslari o'zgarmadi */}
       {modalType === "detail" && selectedStudent && <StudentDetailModal studentId={selectedStudent} onClose={closeModal} />}
       {modalType === "edit" && selectedStudent && <StudentEditModal studentId={selectedStudent} onClose={closeModal} />}
       {modalType === "block" && selectedStudent && <StudentBlockModal studentId={selectedStudent} onClose={closeModal} />}
@@ -218,7 +212,6 @@ export default function StudentPage() {
   );
 }
 
-// Yordamchi komponent: Stats Card
 function StatsCard({ title, value, icon, description, color }: any) {
   const colors: any = {
     blue: "bg-blue-50 border-blue-100",
@@ -241,7 +234,6 @@ function StatsCard({ title, value, icon, description, color }: any) {
   );
 }
 
-// Yordamchi komponent: Action Button
 function ActionButton({ icon, label, color, onClick }: any) {
   const colors: any = {
     blue: "hover:bg-blue-50 text-blue-600 border-blue-100",

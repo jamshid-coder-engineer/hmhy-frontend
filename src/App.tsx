@@ -4,7 +4,6 @@ import adminRoute from "./routes/admin-route";
 import { Dashboard } from "./pages/admin/dashboard/dashboard";
 import { TeacherLogin } from "./pages/teacher/login";
 import { TeacherOTPVerify } from "./pages/teacher/otp-verify";
-import { TeacherDashboard } from "./pages/teacher/dashboard/dashboard";
 import { Toaster } from "sonner";
 import RoleSelect from "./landing/selct-role";
 import Login from "./pages/auth/login";
@@ -15,6 +14,7 @@ import studentRoute from "./routes/student-route";
 import { StudentLayout } from "./layout/student-layout";
 import StudentLogin from "./pages/student/login";
 import Telegram from "./pages/student/telegram";
+import { TeacherLessons } from "./pages/teacher/lessons";
 
 function App() {
   return (
@@ -38,7 +38,7 @@ function App() {
         <Route path="/teacher/otp-verify" element={<TeacherOTPVerify />} />
 
         <Route path="/teacher" element={<TeacherLayout />}>
-          <Route index element={<TeacherDashboard />} />
+          <Route index element={<TeacherLessons />} />
           {teacherRoute.map(({ page: Page, path }) => (
             <Route key={path} path={path} element={<Page />} />
           ))}

@@ -1,26 +1,25 @@
-import Lesson from "../pages/teacher/lesson/lesson";
-import { TeacherDashboard } from "../pages/teacher/dashboard/dashboard";
-import { TeacherProfile } from "../pages/teacher/profile/profile";
-import { Student } from "../pages/teacher/student/student";
+import { TeacherLessons } from "../pages/teacher/lessons";
+import { Payments } from "../pages/teacher/payments";
+import { TeacherProfile } from "../pages/teacher/profile";
+import { Schedule } from "../pages/teacher/schedule";
 
 
 export default [
     {
-        path: "dashboard",
-        page: TeacherDashboard
+        path: "lesson",
+        page: TeacherLessons
+    },
+    {
+        path: "table",
+        page: Schedule
+    },
+    {
+        path: 'payment',
+        page: Payments
     },
     {
         path: "profile",
-        page: TeacherProfile
-    },
-    {
-        path: "student",
-        page: Student
-    },
-    {
-        path: 'lesson',
-        page: Lesson
-    }
+        page: TeacherProfile    },
 ]
 
 

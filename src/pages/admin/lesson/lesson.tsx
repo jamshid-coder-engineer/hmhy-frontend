@@ -1,7 +1,7 @@
 // src/pages/admin/lesson/LessonsPage.tsx
 import React, { useState } from 'react';
 import { Search, Filter, ArrowUpDown } from 'lucide-react';
-import { useTeachers } from '../../../hooks/use-lesson';
+import { useTeachers } from '../../teacher/service/query/useTeachers';
 import type { SortField, TeacherFilters } from '../../auth/types';
 import TeacherCard from '../../admin/lesson/components/TeacherCard';
 
@@ -106,7 +106,7 @@ const Lesson = () => {
                 {!isLoading && teachers.length > 0 && (
                     <>
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mb-8">
-                            {teachers.map((teacher) => (
+                            {teachers.map((teacher: any) => (
                                 <TeacherCard key={teacher.id} teacher={teacher} />
                             ))}
                         </div>

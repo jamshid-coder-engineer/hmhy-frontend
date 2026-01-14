@@ -14,13 +14,12 @@ export interface LoginResponse {
     username: string;
     token: any;
     accessToken: string;
-    role: string; // "ADMIN" | "TEACHER" | "SUPER_ADMIN"
+    role: string; 
   };
 }
 
 export type Role = "admin" | "teacher" | "superadmin" | "student";
 
-// Enums - const assertion bilan (erasableSyntaxOnly compatible)
 export const AuthProvider = {
     LOCAL: 'LOCAL',
     GOOGLE: 'GOOGLE',
@@ -56,7 +55,6 @@ export const LessonStatus = {
 
 export type LessonStatus = typeof LessonStatus[keyof typeof LessonStatus];
 
-// Teacher Interface (Backend entity bilan bir xil)
 export interface Teacher {
     id: string;
     email: string;
@@ -78,11 +76,9 @@ export interface Teacher {
     experience?: string;
     createdAt?: string;
     updatedAt?: string;
-    // Relations
     lessonsCount?: number;
 }
 
-// Student Interface (Backend entity bilan bir xil)
 export interface Student {
     id: string;
     lastName: string;
@@ -99,7 +95,6 @@ export interface Student {
     updatedAt: string;
 }
 
-// Lesson Interface (Backend entity bilan bir xil)
 export interface Lesson {
     id: string;
     name: string;
@@ -116,12 +111,10 @@ export interface Lesson {
     completedAt?: string;
     createdAt: string;
     updatedAt: string;
-    // Relations
     teacher?: Teacher;
     student?: Student;
 }
 
-// Filter Types
 export type SortField = 'fullName' | 'rating' | 'createdAt' | 'hourPrice';
 export type SortOrder = 'ASC' | 'DESC';
 
@@ -153,7 +146,6 @@ export interface LessonFilters {
     limit?: number;
 }
 
-// API Response Types
 export interface PaginationData {
     currentPage: number;
     totalPages: number;

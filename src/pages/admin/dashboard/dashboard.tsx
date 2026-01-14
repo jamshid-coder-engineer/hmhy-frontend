@@ -85,9 +85,8 @@ export const Dashboard = () => {
   ]
 
   return (
-    <div className='p-6 space-y-8 bg-[#f8faff] min-h-screen'>
+    <div className='space-y-4 bg-[#f8faff] min-h-screen'>
       
-      {/* Welcome Hero Section */}
       <div className='relative overflow-hidden rounded-3xl bg-cyan-950 p-8 text-white shadow-2xl'>
         <div className='relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6'>
           <div>
@@ -100,7 +99,7 @@ export const Dashboard = () => {
             <h1 className='text-4xl font-black tracking-tight'>
               Xush kelibsiz, <span className='text-blue-400'>{username}</span>! 👋
             </h1>
-            <p className='text-slate-400 mt-2 font-medium max-w-md'>
+            <p className='text-slate-400 mt-2 font-medium max-w-max'>
               Bugun platformangizda o'sish kuzatilmoqda. Barcha ko'rsatkichlar joyida.
             </p>
           </div>
@@ -113,14 +112,12 @@ export const Dashboard = () => {
             </Card>
           </div>
         </div>
-        {/* Abstract Background Shapes */}
         <div className='absolute top-0 right-0 -translate-y-1/2 translate-x-1/4 w-96 h-96 bg-blue-600/20 rounded-full blur-3xl' />
       </div>
 
-      {/* Primary Stats Grid */}
       <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6'>
-        {statsCards.map((stat) => (
-          <Card key={stat.title} className='border-none shadow-sm hover:shadow-xl transition-all duration-300 group overflow-hidden'>
+        {statsCards.map((stat) => ( 
+          <Card key={stat.title} className='bg-gray-200 border-none shadow-sm hover:shadow-xl transition-all duration-300 group overflow-hidden'>
             <CardContent className='p-6'>
               <div className='flex justify-between items-start mb-4'>
                 <div className={`p-3 rounded-2xl bg-${stat.color}-50 text-${stat.color}-600 group-hover:scale-110 transition-transform duration-300`}>
@@ -138,7 +135,6 @@ export const Dashboard = () => {
       </div>
 
       <div className='grid grid-cols-1 lg:grid-cols-3 gap-8'>
-        {/* Students Insight */}
         <Card className='border-none shadow-sm'>
           <CardHeader>
             <div className='flex items-center gap-3'>
@@ -167,7 +163,6 @@ export const Dashboard = () => {
           </CardContent>
         </Card>
 
-        {/* Teachers Insight */}
         <Card className='border-none shadow-sm'>
           <CardHeader>
             <div className='flex items-center gap-3'>
@@ -196,7 +191,6 @@ export const Dashboard = () => {
           </CardContent>
         </Card>
 
-        {/* Finance Insight */}
         <Card className='border-none shadow-sm bg-gradient-to-br from-white to-slate-50'>
           <CardHeader>
             <div className='flex items-center gap-3'>
@@ -225,13 +219,12 @@ export const Dashboard = () => {
         </Card>
       </div>
 
-      {/* Quick Actions Footer */}
       <Card className='border-none shadow-sm overflow-hidden'>
         <CardHeader className='pb-2'>
             <CardTitle className='text-xl font-black'>Tezkor Harakatlar</CardTitle>
             <CardDescription className='font-medium italic'>Bo'limlarga tezkor o'tish tugmalari</CardDescription>
         </CardHeader>
-        <CardContent className='p-6'>
+        <CardContent className='p-2'>
             <div className='grid grid-cols-2 md:grid-cols-4 gap-4'>
                 {[
                     { title: 'Ustozlar', icon: Users, color: 'blue', link: '/app/admin/teacher' },
@@ -242,7 +235,7 @@ export const Dashboard = () => {
                     <Link
                         key={item.title}
                         to={item.link}
-                        className='group relative flex flex-col items-center p-6 rounded-2xl bg-white border border-slate-100 hover:bg-cyan-950 transition-all duration-300 hover:shadow-xl overflow-hidden'
+                        className='group relative flex flex-col items-center p-6 rounded-2xl bg-gray-200 border border-slate-100 hover:bg-cyan-700 transition-all duration-300 hover:shadow-xl overflow-hidden'
                     >
                         <div className={`p-4 rounded-xl bg-${item.color}-50 text-${item.color}-600 group-hover:bg-white/10 group-hover:text-white transition-colors mb-3`}>
                             <item.icon className='w-6 h-6' />
@@ -250,7 +243,6 @@ export const Dashboard = () => {
                         <p className='text-sm font-black text-slate-700 group-hover:text-white transition-colors'>
                             {item.title}
                         </p>
-                        {/* Hover Decor */}
                         <div className='absolute bottom-0 left-0 w-full h-1 bg-blue-500 scale-x-0 group-hover:scale-x-100 transition-transform' />
                     </Link>
                 ))}

@@ -144,7 +144,7 @@ export const ProfilePage = () => {
     };
 
     const handleSave = () => {
-        updateProfile(editedData, {
+        updateProfile(editedData as any, {
             onSuccess: () => {
                 toast.success("Profile updated successfully!");
                 setIsEditing(false);

@@ -5,7 +5,7 @@ import { Card, CardContent } from "../../components/ui/card";
 
 const Telegram = () => {
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-[#f8faff] p-4 font-sans">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-200 p-4 font-sans">
       <Card className="w-full max-w-137.5 border-none shadow-sm rounded-2xl py-12 px-6">
         <CardContent className="flex flex-col items-center text-center space-y-6">
           

@@ -32,7 +32,7 @@ localStorage.setItem('token', token)
 localStorage.setItem('role', 'teacher') 
 
 toast.success('Login successful!')
-navigate('/teacher/dashboard')
+navigate('/teacher/lesson')
 
 
   } catch (err: any) {
