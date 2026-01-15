@@ -156,3 +156,22 @@ button, input, select, textarea {
   font-size: 16px;
 }
 
+/* Telegram WebApp dark background uchun global */
+:root {
+  color-scheme: dark;
+}
+
+body {
+  color: rgba(255, 255, 255, 0.92);
+}
+
+/* Input placeholder ham ko'rinsin */
+input, textarea, select {
+  color: rgba(255, 255, 255, 0.92);
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.10);
+}
+
+input::placeholder, textarea::placeholder {
+  color: rgba(255, 255, 255, 0.45);
+}
