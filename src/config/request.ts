@@ -1,13 +1,14 @@
 import type { LoginResponse }  from "../pages/auth/types";
 import axios from "axios";
 
-export const BASE_URL =  'http://localhost:5000/api/v1'
+export const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api/v1';
+
 const request = axios.create({
   baseURL: BASE_URL,
   headers: {
     'ngrok-skip-browser-warning': 'true', 
   }
-})
+});
 request.interceptors.request.use((config) => {
     const token = localStorage.getItem("token"); 
     if (token) {
@@ -23,11 +24,12 @@ request.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
 
-    if (error.response?.status === 401 && !originalRequest._retry) {
+   if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
       try {
+        // Bu yerda ham BASE_URL ishlatilishi kerak
         const response = await axios.post<LoginResponse>(
-          "http://localhost:5000/api/v1/new-token"
+          `${BASE_URL}/new-token` 
         );
 
         const newAccessToken = response.data.data.token;
