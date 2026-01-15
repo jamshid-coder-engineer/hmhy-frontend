@@ -1,103 +1,122 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { request } from "../../config/request";
 
 type TelegramWebApp = NonNullable<Window["Telegram"]>["WebApp"];
 
+const BOT_URL = "https://t.me/crmhmhybot";
+
 const StudentLogin = () => {
   const [tg, setTg] = useState<TelegramWebApp | null>(null);
+  const [connecting, setConnecting] = useState(true);
   const [loading, setLoading] = useState(false);
+
   const navigate = useNavigate();
 
-  useEffect(() => {
-    console.log("🟢 StudentLogin component mounted");
-    
-    if (window.Telegram?.WebApp) {
-      const webApp = window.Telegram.WebApp;
-      console.log("✅ Telegram WebApp detected");
-      console.log("📱 InitData:", webApp.initData);
-      console.log("👤 User:", webApp.initDataUnsafe.user);
-      
-      setTg(webApp);
-      webApp.expand();
-      
-      if (webApp.initData) {
-        handleLogin(webApp);
-      }
-    } else {
-      console.warn("⚠️ Telegram WebApp not found. Are you running inside Telegram?");
-      toast.error("Please open this page inside Telegram bot");
-    }
-  }, []);
+  // prevent double auto-login on re-renders
+  const autoLoginStarted = useRef(false);
 
   const handleLogin = async (webApp?: TelegramWebApp) => {
     const telegramApp = webApp || tg;
-    
+
     if (!telegramApp?.initData) {
       toast.error("Telegram data not found");
       return;
     }
 
-    if (!telegramApp.initDataUnsafe.user) {
+    if (!telegramApp.initDataUnsafe?.user) {
       toast.error("User data not found");
       return;
     }
 
-    console.log("🔵 Starting login...");
+    if (loading) return;
+
     setLoading(true);
 
     try {
-      console.log("📤 Sending request to /telegram/login");
-      
       const response = await request.post("/telegram/login", {
         initData: telegramApp.initData,
       });
 
-      console.log("✅ Login response:", response.data);
+      const { accessToken, student } = response.data?.data || {};
 
-      const { accessToken, student } = response.data.data;
-
-      if (!accessToken) {
-        throw new Error("No access token received");
-      }
+      if (!accessToken) throw new Error("No access token received");
 
       localStorage.setItem("token", accessToken);
       localStorage.setItem("role", "student");
-      
+
       if (student) {
-        localStorage.setItem("studentName", `${student.firstName} ${student.lastName}`);
+        localStorage.setItem(
+          "studentName",
+          `${student.firstName ?? ""} ${student.lastName ?? ""}`.trim()
+        );
       }
 
-      console.log("💾 Saved to localStorage");
-      console.log("🎯 Navigating to /student");
-
-      toast.success(`Welcome, ${student?.firstName || 'Student'}!`);
+      toast.success(`Welcome, ${student?.firstName || "Student"}!`);
 
       setTimeout(() => {
         navigate("/student");
-      }, 500);
-
+      }, 300);
     } catch (error: any) {
-      console.error("❌ Login error:", error);
-      console.error("❌ Error response:", error?.response?.data);
-
-      const message = 
-        error?.response?.data?.message || 
+      const message =
+        error?.response?.data?.message ||
         error?.response?.data?.error ||
+        error?.message ||
         "Login failed. Please try again.";
 
       toast.error(message);
 
       if (error?.response?.status === 401) {
-        toast.error("Please use /start command in bot first", {
-          duration: 5000,
-        });
+        toast.error("Please use /start command in bot first", { duration: 5000 });
       }
     } finally {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    console.log("🟢 StudentLogin mounted. Waiting for Telegram WebApp...");
+
+    let tries = 0;
+    const maxTries = 25; // 25 * 120ms ≈ 3s
+
+    const timer = setInterval(() => {
+      tries += 1;
+
+      const webApp = window.Telegram?.WebApp;
+
+      if (webApp) {
+        console.log("✅ Telegram WebApp detected");
+        setTg(webApp);
+        setConnecting(false);
+
+        // Important: tell Telegram we're ready
+        webApp.ready?.();
+        webApp.expand?.();
+
+        // Auto login once if initData exists
+        if (webApp.initData && !autoLoginStarted.current) {
+          autoLoginStarted.current = true;
+          handleLogin(webApp);
+        }
+
+        clearInterval(timer);
+        return;
+      }
+
+      if (tries >= maxTries) {
+        clearInterval(timer);
+        setConnecting(false);
+        toast.error("Please open this page inside Telegram bot");
+      }
+    }, 120);
+
+    return () => clearInterval(timer);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const user = tg?.initDataUnsafe?.user;
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-linear-to-br from-gray-200 p-4">
@@ -107,15 +126,20 @@ const StudentLogin = () => {
           <p className="text-gray-600">Student Portal</p>
         </div>
 
-        {tg?.initDataUnsafe.user ? (
+        {connecting ? (
+          <div className="text-center space-y-4 text-gray-600">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-2"></div>
+            <p>Connecting to Telegram...</p>
+          </div>
+        ) : user ? (
           <div className="space-y-6">
             <div className="bg-blue-50 p-4 rounded-lg">
               <p className="text-sm text-gray-600 mb-2">Logged in as:</p>
               <p className="font-semibold text-gray-800">
-                {tg.initDataUnsafe.user.first_name} {tg.initDataUnsafe.user.last_name || ''}
+                {user.first_name} {user.last_name || ""}
               </p>
-              {tg.initDataUnsafe.user.username && (
-                <p className="text-sm text-gray-500">@{tg.initDataUnsafe.user.username}</p>
+              {user.username && (
+                <p className="text-sm text-gray-500">@{user.username}</p>
               )}
             </div>
 
@@ -129,27 +153,17 @@ const StudentLogin = () => {
           </div>
         ) : (
           <div className="text-center space-y-4">
-            <div className="text-gray-500">
-              {loading ? (
-                <>
-                  <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-                  <p>Connecting to Telegram...</p>
-                </>
-              ) : (
-                <>
-                   <a>
-                  <p className="mb-4">Please open this page inside Telegram bot</p>
-                  
-                    href="https://t.me/crmhmhybot"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-block px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-colors"
-                  
-                    Open Telegram Bot
-                  </a>
-                </>
-              )}
-            </div>
+            <p className="mb-2 text-gray-600">
+              Please open this page inside Telegram bot
+            </p>
+            <a
+              href={BOT_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-colors"
+            >
+              Open Telegram Bot
+            </a>
           </div>
         )}
 
