@@ -11,7 +11,7 @@ import { Button } from "../../../components/ui/button";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 import { Textarea } from "../../../components/ui/textarea";
-import type { TeacherDeleteModalProps } from "../../auth/admin-type";
+import { TeacherDeleteModalProps } from "../../auth/admin-type";
 
 export const TeacherDeleteModal = ({
     teacher,

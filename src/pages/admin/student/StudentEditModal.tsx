@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect, type FormEvent } from 'react';
 import { useStudentDetail } from '../../../hooks/useStudents';
 import { useUpdateStudent } from '../../../hooks/useStudentMutations';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "../../../components/ui/dialog";
@@ -31,7 +31,7 @@ export function StudentEditModal({ studentId, onClose }: { studentId: string; on
     }
   }, [student]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     updateStudent.mutate({ id: studentId, ...formData }, { onSuccess: onClose });
   };

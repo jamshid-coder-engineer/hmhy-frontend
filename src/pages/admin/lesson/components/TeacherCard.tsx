@@ -1,5 +1,4 @@
 // src/components/TeacherCard.tsx
-import React from 'react';
 import { Star, ChevronRight, User, Award } from 'lucide-react';
 import { type Teacher, TeacherSpecification } from '../../../auth/types';
 import { useNavigate } from 'react-router-dom';
@@ -8,7 +7,7 @@ interface TeacherCardProps {
     teacher: Teacher;
 }
 
-const TeacherCard: React.FC<TeacherCardProps> = ({ teacher }) => {
+const TeacherCard = ({ teacher }: TeacherCardProps) => {
     const navigate = useNavigate();
 
     const getInitials = (name: string): string => {

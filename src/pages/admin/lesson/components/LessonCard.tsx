@@ -1,5 +1,4 @@
 // src/components/LessonCard.tsx
-import React from 'react';
 import { Calendar, Clock, DollarSign, CheckCircle, XCircle } from 'lucide-react';
 import { type Lesson, LessonStatus } from '../../../auth/types';
 
@@ -7,7 +6,7 @@ interface LessonCardProps {
     lesson: Lesson;
 }
 
-const LessonCard: React.FC<LessonCardProps> = ({ lesson }) => {
+const LessonCard = ({ lesson }: LessonCardProps) => {
     const getStatusColor = (status: LessonStatus): string => {
         const colors = {
             [LessonStatus.AVAILABLE]: 'bg-blue-100 text-blue-800 border-blue-200',

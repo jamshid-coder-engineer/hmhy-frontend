@@ -1,6 +1,5 @@
 // src/pages/admin/lesson/LessonsPage.tsx
-import React, { useState } from 'react';
-import { Search, Filter, ArrowUpDown } from 'lucide-react';
+import { useState } from 'react';
 import { useTeachers } from '../../teacher/service/query/useTeachers';
 import type { SortField, TeacherFilters } from '../../auth/types';
 import TeacherCard from '../../admin/lesson/components/TeacherCard';

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { request } from "../../config/request";
@@ -22,7 +22,6 @@ const StudentLogin = () => {
       setTg(webApp);
       webApp.expand();
       
-      // Auto-login if initData exists
       if (webApp.initData) {
         handleLogin(webApp);
       }
@@ -63,7 +62,6 @@ const StudentLogin = () => {
         throw new Error("No access token received");
       }
 
-      // Save to localStorage
       localStorage.setItem("token", accessToken);
       localStorage.setItem("role", "student");
       
@@ -91,7 +89,6 @@ const StudentLogin = () => {
 
       toast.error(message);
 
-      // If student not registered, show message
       if (error?.response?.status === 401) {
         toast.error("Please use /start command in bot first", {
           duration: 5000,
