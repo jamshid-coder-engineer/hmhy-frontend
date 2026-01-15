@@ -1,4 +1,16 @@
 export default function TeachersPage() {
+const isTelegram = !!window.Telegram?.WebApp;
+
+{isTelegram && (
+  <button
+    className="w-full mb-3 rounded-xl bg-white/10 border border-white/10 py-2 text-sm"
+    onClick={() => (window.Telegram?.WebApp as any)?.openLink?.(window.location.href)}
+  >
+    Open in browser
+  </button>
+)}
+
+
   return (
     <div className="mx-auto max-w-md p-4 space-y-4">
       <h1 className="text-xl font-semibold">Ustozlar ro'yxati</h1>

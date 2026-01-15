@@ -146,3 +146,13 @@ html, body {
 body {
   padding-bottom: env(safe-area-inset-bottom);
 }
+
+/* Telegram Desktop WebApp'da o'qilishi uchun biroz kattaroq */
+:root {
+  font-size: 16px;
+}
+
+button, input, select, textarea {
+  font-size: 16px;
+}
+
