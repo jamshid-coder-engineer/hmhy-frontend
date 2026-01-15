@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import { MainLayout } from "./layout/main-layout";
 import adminRoute from "./routes/admin-route";
 import { Dashboard } from "./pages/admin/dashboard/dashboard";
@@ -9,12 +9,12 @@ import RoleSelect from "./landing/selct-role";
 import Login from "./pages/auth/login";
 import { TeacherLayout } from "./layout/teacher-layout";
 import teacherRoute from "./routes/teacher-route";
-import StudentDashboard from "./pages/student/dashboard/dashboard";
 import studentRoute from "./routes/student-route";
 import { StudentLayout } from "./layout/student-layout";
 import StudentLogin from "./pages/student/login";
 import Telegram from "./pages/student/telegram";
 import { TeacherLessons } from "./pages/teacher/lessons";
+import TeachersPage from "./pages/student/teacher";
 
 function App() {
   return (
@@ -27,12 +27,13 @@ function App() {
         <Route path="/telegram" element={<Telegram />} /> 
         <Route path="/student/login" element={<StudentLogin />} />
         
-        <Route path="/student" element={<StudentLayout />}>
-          <Route index element={<StudentDashboard />} />
-          {studentRoute.map(({ page: Page, path }) => (
-            <Route key={path} path={path} element={<Page />} />
-          ))}
-        </Route>
+       <Route path="/student" element={<StudentLayout />}>
+  <Route index element={<Navigate to="/student/teachers" replace />} />
+  {studentRoute.map(({ page: Page, path }) => (
+    <Route key={path} path={path} element={<Page />} />
+  ))}
+</Route>
+
 
         <Route path="/teacher/login" element={<TeacherLogin />} />
         <Route path="/teacher/otp-verify" element={<TeacherOTPVerify />} />
