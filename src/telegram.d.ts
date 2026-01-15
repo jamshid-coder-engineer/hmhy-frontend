@@ -4,6 +4,9 @@ declare global {
   interface Window {
     Telegram?: {
       WebApp: {
+        setBackgroundColor(arg0: string): unknown;
+        setHeaderColor(arg0: string): unknown;
+        disableVerticalSwipes(): unknown;
         ready(): unknown;
         initData: string;
         initDataUnsafe: {

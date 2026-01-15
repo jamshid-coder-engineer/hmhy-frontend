@@ -129,3 +129,20 @@
     display: grid;
     place-items: center;
 }
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background: #0b0b0b;
+}
+
+#root {
+  min-height: 100%;
+  background: #0b0b0b;
+}
+
+/* iOS/Telegram safe-area uchun */
+body {
+  padding-bottom: env(safe-area-inset-bottom);
+}
