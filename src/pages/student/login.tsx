@@ -29,7 +29,6 @@ const StudentLogin = () => {
     }
 
     if (loading) return;
-
     setLoading(true);
 
     try {
@@ -38,7 +37,6 @@ const StudentLogin = () => {
       });
 
       const { accessToken, student } = response.data?.data || {};
-
       if (!accessToken) throw new Error("No access token received");
 
       localStorage.setItem("token", accessToken);
@@ -66,7 +64,9 @@ const StudentLogin = () => {
       toast.error(message);
 
       if (error?.response?.status === 401) {
-        toast.error("Please use /start command in bot first", { duration: 5000 });
+        toast.error("Please use /start command in bot first", {
+          duration: 5000,
+        });
       }
     } finally {
       setLoading(false);
@@ -74,7 +74,7 @@ const StudentLogin = () => {
   };
 
   useEffect(() => {
-    console.log("🟢 StudentLogin mounted. Waiting for Telegram WebApp...");
+    document.documentElement.classList.remove("telegram-dark");
 
     let tries = 0;
     const maxTries = 25;
@@ -85,10 +85,10 @@ const StudentLogin = () => {
       const webApp = window.Telegram?.WebApp;
 
       if (webApp) {
+        document.documentElement.classList.add("telegram-dark");
+
         setTg(webApp);
         setConnecting(false);
-
-        document.documentElement.classList.add("telegram-dark");
 
         webApp.ready?.();
         webApp.expand?.();
@@ -113,6 +113,7 @@ const StudentLogin = () => {
       clearInterval(timer);
       document.documentElement.classList.remove("telegram-dark");
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const user = tg?.initDataUnsafe?.user;

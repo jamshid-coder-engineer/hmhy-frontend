@@ -40,6 +40,9 @@ export const StudentLayout = () => {
     return <Navigate replace to="/student/login" />;
   }
 
+  const activePath =
+    location.pathname === "/student" ? "/student/teachers" : location.pathname;
+
   return (
     <div className="min-h-screen bg-neutral-950 text-white">
       <div className="pb-24 px-4">
@@ -52,7 +55,7 @@ export const StudentLayout = () => {
       >
         <div className="grid grid-cols-4">
           {tabs.map((t) => {
-            const active = location.pathname === t.to;
+            const active = activePath === t.to;
             return (
               <button
                 key={t.to}

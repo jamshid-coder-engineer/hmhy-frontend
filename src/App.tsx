@@ -21,18 +21,18 @@ function App() {
     <>
       <Toaster richColors position="top-right" />
       <Routes>
-       
+
         <Route path="/" element={<RoleSelect />} />
 
-        <Route path="/telegram" element={<Telegram />} /> 
+        <Route path="/telegram" element={<Telegram />} />
         <Route path="/student/login" element={<StudentLogin />} />
-        
-       <Route path="/student" element={<StudentLayout />}>
-  <Route index element={<Navigate to="/student/teachers" replace />} />
-  {studentRoute.map(({ page: Page, path }) => (
-    <Route key={path} path={path} element={<Page />} />
-  ))}
-</Route>
+
+        <Route path="/student" element={<StudentLayout />}>
+          <Route index element={<Navigate to="/student/teachers" replace />} />
+          {studentRoute.map(({ page: Page, path }) => (
+            <Route key={path} path={path} element={<Page />} />
+          ))}
+        </Route>
 
 
         <Route path="/teacher/login" element={<TeacherLogin />} />
