@@ -7,33 +7,46 @@ body,
   height: 100%;
 }
 
+/* ===== DEFAULT WEB (admin / teacher / dashboard) ===== */
 body {
-  background: #0b0b0b;
-  color: rgba(255, 255, 255, 0.92);
+  background: #ffffff;
+  color: #000000;
   margin: 0;
 }
 
-:root {
-  color-scheme: dark;
-  font-size: 16px;
-}
-
-/* Default (light / admin / teacher) */
+/* Inputs default */
 input,
 textarea,
 select {
-  color: #000;
+  color: #000000;
+  background: #ffffff;
 }
 
-/* Telegram WebApp dark mode */
+input::placeholder,
+textarea::placeholder {
+  color: #6b7280; /* gray-500 */
+}
+
+/* ===== TELEGRAM WEBAPP DARK MODE ===== */
+.telegram-dark body {
+  background: #0b0b0b;
+  color: rgba(255, 255, 255, 0.92);
+}
+
 .telegram-dark input,
 .telegram-dark textarea,
 .telegram-dark select {
   background: rgba(255, 255, 255, 0.06);
   color: rgba(255, 255, 255, 0.92);
+  border-color: rgba(255, 255, 255, 0.12);
 }
 
 .telegram-dark input::placeholder,
 .telegram-dark textarea::placeholder {
   color: rgba(255, 255, 255, 0.45);
+}
+
+/* Telegram uchun */
+.telegram-dark {
+  color-scheme: dark;
 }
