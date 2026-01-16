@@ -109,7 +109,10 @@ const StudentLogin = () => {
       }
     }, 120);
 
-    return () => clearInterval(timer);
+    return () => {
+      clearInterval(timer);
+      document.documentElement.classList.remove("telegram-dark");
+    };
   }, []);
 
   const user = tg?.initDataUnsafe?.user;

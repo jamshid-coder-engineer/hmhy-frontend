@@ -1,3 +1,4 @@
+import { useEffect } from "react"
 import { Navigate, Outlet } from "react-router-dom"
 import { SidebarProvider, SidebarTrigger } from "../components/ui/sidebar"
 import type { Role } from "../pages/auth/types"
@@ -7,7 +8,9 @@ export const TeacherLayout = () => {
   const token = localStorage.getItem('token')
   const role = localStorage.getItem('role') as Role
 
-  
+  useEffect(() => {
+    document.documentElement.classList.remove("telegram-dark")
+  }, [])
 
   if (!token || role !== 'teacher') {
     console.log('🔴 REDIRECTING TO /teacher/login')

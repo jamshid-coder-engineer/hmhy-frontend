@@ -30,6 +30,10 @@ export const StudentLayout = () => {
     } else {
       document.documentElement.classList.remove("telegram-dark");
     }
+
+    return () => {
+      document.documentElement.classList.remove("telegram-dark");
+    };
   }, []);
 
   if (!token || role !== "student") {

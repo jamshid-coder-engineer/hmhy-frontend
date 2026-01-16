@@ -1,3 +1,4 @@
+import { useEffect } from "react"
 import { Navigate, Outlet } from 'react-router-dom'
 import { SidebarProvider, SidebarTrigger } from "../components/ui/sidebar"
 import { AppSidebar } from './navbar'
@@ -6,6 +7,10 @@ import type { Role } from '../pages/auth/types'
 export const MainLayout = () => {
   const token = localStorage.getItem('token')
   const role = localStorage.getItem('role') as Role | undefined
+
+  useEffect(() => {
+    document.documentElement.classList.remove("telegram-dark")
+  }, [])
 
   if (!token || !role) {
     return <Navigate replace to={"/"} />
