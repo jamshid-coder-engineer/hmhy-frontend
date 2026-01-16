@@ -17,7 +17,6 @@ import { ActiveLink } from "../components/active-link"
 import type { Role } from "../pages/auth/types"
 
 export function AppSidebar({ role }: { role: Role }) {
-    // const location = useLocation()
     const logout = useLogout()
     const roleLinks = links[role as keyof typeof links] || []
 

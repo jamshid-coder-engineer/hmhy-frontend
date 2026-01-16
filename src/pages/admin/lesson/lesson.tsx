@@ -1,4 +1,3 @@
-// src/pages/admin/lesson/LessonsPage.tsx
 import { useState } from 'react';
 import { useTeachers } from '../../teacher/service/query/useTeachers';
 import type { SortField, TeacherFilters } from '../../auth/types';

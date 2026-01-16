@@ -17,7 +17,7 @@ export default function ProfilePage() {
             <div className="text-xl font-semibold">0</div>
           </div>
           <div className="rounded-xl bg-white/5 border border-white/10 p-3">
-            <div className="text-white/60 text-xs">O‘tgan</div>
+            <div className="text-white/60 text-xs">Otgan</div>
             <div className="text-xl font-semibold">0</div>
           </div>
         </div>

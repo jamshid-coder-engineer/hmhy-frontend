@@ -122,7 +122,6 @@
   }
 }
 
-/* ====== ONLY TELEGRAM WEBAPP OVERRIDES ====== */
 html.telegram-dark,
 html.telegram-dark body,
 html.telegram-dark #root {
@@ -145,15 +144,14 @@ html.telegram-dark select::placeholder {
   color: rgba(255, 255, 255, 0.45) !important;
 }
 
-/* ====== DEFAULT (ADMIN/TEACHER) INPUT TEXT SHOULD BE DARK ====== */
 html:not(.telegram-dark) input,
 html:not(.telegram-dark) textarea,
 html:not(.telegram-dark) select {
-  color: #0f172a !important; /* slate-900 */
+  color: #0f172a !important; 
 }
 
 html:not(.telegram-dark) input::placeholder,
 html:not(.telegram-dark) textarea::placeholder,
 html:not(.telegram-dark) select::placeholder {
-  color: #64748b !important; /* slate-500 */
+  color: #64748b !important; 
 }

@@ -105,7 +105,7 @@ export const TeacherPage = () => {
     };
 
     const handleOpenDetails = (id: string) => {
-        console.log('🔍 Opening details for:', id) // ← Debug log
+        console.log('🔍 Opening details for:', id) 
 
         setSelectedTeacherId(id);
         setIsModalOpen(true);
@@ -126,19 +126,16 @@ export const TeacherPage = () => {
             }
         })
 
-        // Backend'ga request
         changeStatus(id, {
             onSuccess: () => {
                 toast.success('Status muvaffaqiyatli o\'zgartirildi!', {
                     position: 'top-right',
                 })
-                // Backend bilan sync qilish
                 queryClient.invalidateQueries({ queryKey: ['teacher-list'] })
             },
             onError: (error) => {
                 console.error('❌ Status change error:', error)
                 toast.error('Xatolik yuz berdi')
-                // Rollback - eski holatga qaytarish
                 queryClient.invalidateQueries({ queryKey: ['teacher-list'] })
             },
         })

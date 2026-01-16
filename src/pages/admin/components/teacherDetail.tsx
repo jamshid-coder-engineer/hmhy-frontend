@@ -103,7 +103,6 @@ export const TeacherDetailsModal = ({ id, open, onOpenChange }: any) => {
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent className="sm:max-w-[450px] p-0 overflow-hidden bg-[#f8fafc] border-none shadow-2xl rounded-2xl">
-                {/* ✅ Accessibility: DialogHeader qo'shildi */}
                 <DialogHeader className="sr-only">
                     <DialogTitle>
                         {adminData.fullName || "Teacher Details"}
@@ -119,7 +118,6 @@ export const TeacherDetailsModal = ({ id, open, onOpenChange }: any) => {
                     </div>
                 ) : (
                     <div className="relative">
-                        {/* Header with Avatar */}
                         <div className="bg-white p-6 pb-6 flex flex-col items-center border-b border-slate-100">
                             <h3 className="font-bold text-lg mb-4 text-slate-800">
                                 {adminData.fullName || "Teacher Details"}
@@ -137,7 +135,6 @@ export const TeacherDetailsModal = ({ id, open, onOpenChange }: any) => {
                             </div>
                         </div>
 
-                        {/* Details */}
                         <div className="p-5 space-y-3 max-h-[65vh] overflow-y-auto">
                             <DetailItem
                                 icon={User}
@@ -173,7 +170,6 @@ export const TeacherDetailsModal = ({ id, open, onOpenChange }: any) => {
                                 color="text-purple-400"
                             />
 
-                            {/* Rating */}
                             <div className="flex items-center justify-between p-3 border border-slate-200 rounded-xl bg-white shadow-sm">
                                 <div className="flex items-center gap-3 text-slate-500">
                                     <Star className="w-4 h-4 text-orange-400" />
@@ -205,7 +201,6 @@ export const TeacherDetailsModal = ({ id, open, onOpenChange }: any) => {
                                 color="text-indigo-500"
                             />
 
-                            {/* Hour Price */}
                             <div className="flex items-center justify-between p-3 border border-slate-200 rounded-xl bg-white shadow-sm">
                                 <div className="flex items-center gap-3 text-slate-500">
                                     <DollarSign className="w-4 h-4 text-green-500" />
@@ -231,7 +226,6 @@ export const TeacherDetailsModal = ({ id, open, onOpenChange }: any) => {
                                 isStatus
                             />
 
-                            {/* Dates */}
                             <div className="grid grid-cols-1 gap-3 pt-2">
                                 <div className="bg-white p-3 rounded-xl border border-slate-200 flex justify-between items-center shadow-sm">
                                     <div className="flex items-center gap-2 text-blue-600">

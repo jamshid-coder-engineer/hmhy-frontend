@@ -4,7 +4,7 @@ import { Badge } from "../../../components/ui/badge";
 import { ScrollArea } from "../../../components/ui/scroll-area";
 
 export function StudentDetailModal({ studentId, onClose }: { studentId: string; onClose: () => void }) {
-  const { data, isLoading } = useStudentDetail(studentId);
+  const { data } = useStudentDetail(studentId);
   const student = data?.data;
 
   const DetailRow = ({ label, value, full = false }: any) => (

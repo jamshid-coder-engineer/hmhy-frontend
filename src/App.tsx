@@ -14,7 +14,6 @@ import { StudentLayout } from "./layout/student-layout";
 import StudentLogin from "./pages/student/login";
 import Telegram from "./pages/student/telegram";
 import { TeacherLessons } from "./pages/teacher/lessons";
-import TeachersPage from "./pages/student/teacher";
 
 function App() {
   return (

@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { 
   Search, 
-  ArrowUpDown, 
   Eye, 
   Edit, 
   Ban, 

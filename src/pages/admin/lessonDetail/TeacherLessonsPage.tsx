@@ -1,4 +1,3 @@
-// src/pages/TeacherLessonsPage.tsx
 import  { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import {
@@ -36,11 +35,9 @@ const TeacherLessonsPage = () => {
 
     const [searchQuery, setSearchQuery] = useState('');
 
-    // Fetch teacher info (faqat ism va asosiy ma'lumot uchun)
     const { data: teacherData, isLoading: teacherLoading } = useTeacher(teacherId);
     console.log(teacherData)
 
-    // Fetch teacher lessons
     const {
         data: lessonsData,
         isLoading: lessonsLoading,
@@ -90,7 +87,6 @@ const TeacherLessonsPage = () => {
         return status.charAt(0) + status.slice(1).toLowerCase();
     };
 
-    // Filter lessons by search query
     const filteredLessons = lessons.filter((lesson: Lesson) =>
         lesson.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         lesson.student?.firstName?.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -108,7 +104,6 @@ const TeacherLessonsPage = () => {
     return (
         <div className="min-h-screen bg-gray-50 p-6">
             <div className="max-w-7xl mx-auto">
-                {/* Back Button */}
                 <button
                     onClick={() => navigate(-1)}
                     className="flex items-center gap-2 text-gray-600 hover:text-gray-900 mb-6 transition-colors"
@@ -117,7 +112,6 @@ const TeacherLessonsPage = () => {
                     <span className="font-medium">Back to Teachers</span>
                 </button>
 
-                {/* Page Header */}
                 <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
                     <div className="flex items-center justify-between">
                         <div>
@@ -144,7 +138,6 @@ const TeacherLessonsPage = () => {
                     </div>
                 </div>
 
-                {/* Filters Section */}
                 <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
                     <div className="flex items-center gap-2 mb-4">
                         <Filter className="w-5 h-5 text-gray-600" />
@@ -152,7 +145,6 @@ const TeacherLessonsPage = () => {
                     </div>
 
                     <div className="flex flex-col md:flex-row gap-4">
-                        {/* Search */}
                         <div className="relative flex-1">
                             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
                             <input
@@ -164,7 +156,6 @@ const TeacherLessonsPage = () => {
                             />
                         </div>
 
-                        {/* Status Filter Buttons */}
                         <div className="flex flex-wrap gap-2">
                             {['', LessonStatus.AVAILABLE, LessonStatus.BOOKED, LessonStatus.COMPLETED, LessonStatus.CANCELLED].map(
                                 (status) => (
@@ -187,14 +178,12 @@ const TeacherLessonsPage = () => {
                     </div>
                 </div>
 
-                {/* Lessons Loading */}
                 {lessonsLoading && (
                     <div className="flex items-center justify-center py-12">
                         <Loader2 className="w-8 h-8 animate-spin text-blue-500" />
                     </div>
                 )}
 
-                {/* Lessons Error */}
                 {lessonsError && (
                     <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6 flex items-start gap-3">
                         <AlertCircle className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
@@ -205,7 +194,6 @@ const TeacherLessonsPage = () => {
                     </div>
                 )}
 
-                {/* Lessons Grid */}
                 {!lessonsLoading && !lessonsError && filteredLessons.length > 0 && (
                     <>
                         <div className="mb-4 flex items-center justify-between">
@@ -225,7 +213,6 @@ const TeacherLessonsPage = () => {
                             ))}
                         </div>
 
-                        {/* Pagination */}
                         {pagination && pagination.totalPages > 1 && (
                             <div className="flex justify-center gap-2">
                                 <button
@@ -262,7 +249,6 @@ const TeacherLessonsPage = () => {
                     </>
                 )}
 
-                {/* Empty Lessons */}
                 {!lessonsLoading && !lessonsError && filteredLessons.length === 0 && (
                     <div className="text-center py-12 bg-white rounded-lg">
                         <Calendar className="w-16 h-16 mx-auto text-gray-400 mb-4" />

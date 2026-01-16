@@ -1,4 +1,3 @@
-// hooks/useStudentMutations.ts
 import { request } from "../config/request";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
@@ -13,7 +12,6 @@ interface UpdateStudentData {
   timezone?: string;
 }
 
-// Student ma'lumotlarini yangilash
 export const useUpdateStudent = () => {
   const queryClient = useQueryClient();
   
@@ -34,7 +32,6 @@ export const useUpdateStudent = () => {
   });
 };
 
-// Studentni bloklash/faollashtirish
 export const useBlockStudent = () => {
   const queryClient = useQueryClient();
   
@@ -55,7 +52,6 @@ export const useBlockStudent = () => {
   });
 };
 
-// Studentni o'chirish
 export const useDeleteStudent = () => {
   const queryClient = useQueryClient();
   

@@ -14,8 +14,7 @@ export const TeacherOTPVerify = () => {
 
   const emailFromURL = searchParams.get('email') || ''
   
-  // Form states
-  const [email, setEmail] = useState(emailFromURL)
+  const [email] = useState(emailFromURL)
   const [phoneNumber, setPhoneNumber] = useState('')
   const [password, setPassword] = useState('')
   const [otp, setOtp] = useState('')
@@ -29,12 +28,10 @@ export const TeacherOTPVerify = () => {
     }
   }, [emailFromURL, navigate])
 
-  // Send OTP
   const handleSendOTP = async () => {
     console.log('🚀 Send OTP clicked!')
     console.log('📤 Data:', { email, phoneNumber, password: '***' })
 
-    // Basic validation
     if (!phoneNumber || phoneNumber.length < 9) {
       toast.error('Please enter a valid phone number')
       return
@@ -65,7 +62,6 @@ export const TeacherOTPVerify = () => {
     }
   }
 
-  // Verify OTP
   const handleVerifyOTP = async () => {
     console.log('🚀 Verify OTP clicked!')
     console.log('📤 OTP:', otp)
@@ -113,7 +109,6 @@ export const TeacherOTPVerify = () => {
           </div>
 
           <div className='space-y-4'>
-            {/* Email */}
             <div>
               <label className='text-sm font-medium'>Email</label>
               <Input
@@ -125,7 +120,6 @@ export const TeacherOTPVerify = () => {
 
             {step === 'send' ? (
               <>
-                {/* Phone Number */}
                 <div>
                   <label className='text-sm font-medium'>Phone Number</label>
                   <Input
@@ -137,7 +131,6 @@ export const TeacherOTPVerify = () => {
                   />
                 </div>
 
-                {/* Password */}
                 <div>
                   <label className='text-sm font-medium'>Password</label>
                   <Input
@@ -169,7 +162,6 @@ export const TeacherOTPVerify = () => {
               </>
             ) : (
               <>
-                {/* OTP */}
                 <div>
                   <label className='text-sm font-medium'>OTP Code</label>
                   <Input

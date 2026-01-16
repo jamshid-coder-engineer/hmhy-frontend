@@ -1,4 +1,3 @@
-// src/components/TeacherCard.tsx
 import { Star, ChevronRight, User, Award } from 'lucide-react';
 import { type Teacher, TeacherSpecification } from '../../../auth/types';
 import { useNavigate } from 'react-router-dom';
@@ -53,7 +52,6 @@ const TeacherCard = ({ teacher }: TeacherCardProps) => {
 
     return (
         <div className="bg-white rounded-lg shadow-sm hover:shadow-lg transition-all duration-200 p-6 border border-gray-100">
-            {/* Teacher Header */}
             <div className="flex items-start gap-4 mb-4">
                 <div className="relative">
                     {teacher.imageUrl ? (
@@ -98,7 +96,6 @@ const TeacherCard = ({ teacher }: TeacherCardProps) => {
                 </div>
             </div>
 
-            {/* Teacher Stats */}
             <div className="flex items-center justify-between mb-3 pb-3 border-b border-gray-100">
                 <div className="flex items-center gap-1">
                     <Star className="w-5 h-5 text-yellow-400 fill-yellow-400" />
@@ -114,23 +111,19 @@ const TeacherCard = ({ teacher }: TeacherCardProps) => {
                 )}
             </div>
 
-            {/* Contact Info */}
             <div className="space-y-1 mb-3 text-xs text-gray-600">
                 {teacher.email && <p className="truncate">📧 {teacher.email}</p>}
                 {teacher.phoneNumber && <p>📱 {teacher.phoneNumber}</p>}
             </div>
 
-            {/* Experience */}
             {teacher.experience && (
                 <p className="text-sm text-gray-600 mb-4">{teacher.experience} experience</p>
             )}
 
-            {/* Description */}
             {teacher.description && (
                 <p className="text-sm text-gray-600 mb-4 line-clamp-2">{teacher.description}</p>
             )}
 
-            {/* View Lessons Button */}
             <button
                 onClick={handleViewLessons}
                 className="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-blue-50 hover:bg-blue-100 border border-blue-200 rounded-lg transition-all text-blue-700 font-medium"

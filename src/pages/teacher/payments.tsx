@@ -1,7 +1,7 @@
 import { useTeacherStats } from "./service/query/useTeacherStats";
 import { CheckCircle2, TrendingUp, XCircle, Wallet } from "lucide-react";
 import { useState } from "react";
-import { cn } from "@/lib/utils";
+import { cn } from "../../lib/utils";
 import { PaymentsSkeleton } from "./components/payments-skeleton";
 
 export const Payments = () => {

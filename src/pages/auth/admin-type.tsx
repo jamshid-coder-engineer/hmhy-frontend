@@ -195,7 +195,6 @@ export interface LessonFilters {
     limit?: number;
 }
 
-// --- Dashboard & Payment Tiplari ---
 export interface DashboardStats {
     totalStudents: number;
     totalTeachers: number;

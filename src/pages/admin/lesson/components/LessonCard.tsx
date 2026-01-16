@@ -1,4 +1,3 @@
-// src/components/LessonCard.tsx
 import { Calendar, Clock, DollarSign, CheckCircle, XCircle } from 'lucide-react';
 import { type Lesson, LessonStatus } from '../../../auth/types';
 
@@ -61,7 +60,6 @@ const LessonCard = ({ lesson }: LessonCardProps) => {
 
     return (
         <div className="bg-white border border-gray-200 rounded-lg p-5 hover:shadow-md transition-shadow">
-            {/* Header */}
             <div className="flex items-start justify-between mb-4">
                 <div className="flex-1">
                     <h3 className="font-semibold text-gray-900 mb-1 line-clamp-1">{lesson.name}</h3>
@@ -81,7 +79,6 @@ const LessonCard = ({ lesson }: LessonCardProps) => {
                 </span>
             </div>
 
-            {/* Date & Time */}
             <div className="space-y-2 mb-4 pb-4 border-b border-gray-100">
                 <div className="flex items-center gap-2 text-sm text-gray-600">
                     <Calendar className="w-4 h-4 text-gray-400 flex-shrink-0" />
@@ -95,7 +92,6 @@ const LessonCard = ({ lesson }: LessonCardProps) => {
                 </div>
             </div>
 
-            {/* Google Meet Link */}
             {lesson.googleMeetUrl && (
                 <div className="mb-4">
                     <a
@@ -110,7 +106,6 @@ const LessonCard = ({ lesson }: LessonCardProps) => {
                 </div>
             )}
 
-            {/* Footer */}
             <div className="flex items-center justify-between pt-3 border-t border-gray-100">
                 <div className="flex items-center gap-2">
                     <DollarSign className="w-4 h-4 text-gray-400" />
@@ -131,7 +126,6 @@ const LessonCard = ({ lesson }: LessonCardProps) => {
                 </div>
             </div>
 
-            {/* Booked/Completed Info */}
             {lesson.bookedAt && lesson.status === LessonStatus.BOOKED && (
                 <div className="mt-3 pt-3 border-t border-gray-100">
                     <p className="text-xs text-gray-500">

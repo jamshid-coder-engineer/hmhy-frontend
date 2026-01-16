@@ -27,7 +27,6 @@ request.interceptors.response.use(
    if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
       try {
-        // Bu yerda ham BASE_URL ishlatilishi kerak
         const response = await axios.post<LoginResponse>(
           `${BASE_URL}/new-token` 
         );
