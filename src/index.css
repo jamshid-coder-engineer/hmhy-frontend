@@ -13,20 +13,27 @@ body {
   margin: 0;
 }
 
-/* Telegram WebApp dark mode */
 :root {
   color-scheme: dark;
   font-size: 16px;
 }
 
-/* Inputs */
+/* Default (light / admin / teacher) */
 input,
 textarea,
 select {
+  color: #000;
+}
+
+/* Telegram WebApp dark mode */
+.telegram-dark input,
+.telegram-dark textarea,
+.telegram-dark select {
   background: rgba(255, 255, 255, 0.06);
   color: rgba(255, 255, 255, 0.92);
 }
 
-input::placeholder {
+.telegram-dark input::placeholder,
+.telegram-dark textarea::placeholder {
   color: rgba(255, 255, 255, 0.45);
 }

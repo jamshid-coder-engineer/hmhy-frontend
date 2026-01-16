@@ -17,14 +17,19 @@ export const StudentLayout = () => {
 
   useEffect(() => {
     const tg = window.Telegram?.WebApp;
-    if (!tg) return;
 
-    tg.ready?.();
-    tg.expand?.();
-    tg.disableVerticalSwipes?.();
+    if (tg) {
+      document.documentElement.classList.add("telegram-dark");
 
-    tg.setHeaderColor?.("#0b0b0b");
-    tg.setBackgroundColor?.("#0b0b0b");
+      tg.ready?.();
+      tg.expand?.();
+      tg.disableVerticalSwipes?.();
+
+      tg.setHeaderColor?.("#0b0b0b");
+      tg.setBackgroundColor?.("#0b0b0b");
+    } else {
+      document.documentElement.classList.remove("telegram-dark");
+    }
   }, []);
 
   if (!token || role !== "student") {
@@ -33,12 +38,10 @@ export const StudentLayout = () => {
 
   return (
     <div className="min-h-screen bg-neutral-950 text-white">
-      {/* content */}
       <div className="pb-24 px-4">
         <Outlet />
       </div>
 
-      {/* bottom tabbar */}
       <div
         className="fixed bottom-0 left-0 right-0 border-t border-white/10 bg-neutral-900/95 backdrop-blur"
         style={{ paddingBottom: "env(safe-area-inset-bottom)" }}

@@ -13,8 +13,6 @@ const StudentLogin = () => {
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
-
-  // prevent double auto-login on re-renders
   const autoLoginStarted = useRef(false);
 
   const handleLogin = async (webApp?: TelegramWebApp) => {
@@ -79,7 +77,7 @@ const StudentLogin = () => {
     console.log("🟢 StudentLogin mounted. Waiting for Telegram WebApp...");
 
     let tries = 0;
-    const maxTries = 25; // 25 * 120ms ≈ 3s
+    const maxTries = 25;
 
     const timer = setInterval(() => {
       tries += 1;
@@ -87,15 +85,14 @@ const StudentLogin = () => {
       const webApp = window.Telegram?.WebApp;
 
       if (webApp) {
-        console.log("✅ Telegram WebApp detected");
         setTg(webApp);
         setConnecting(false);
 
-        // Important: tell Telegram we're ready
+        document.documentElement.classList.add("telegram-dark");
+
         webApp.ready?.();
         webApp.expand?.();
 
-        // Auto login once if initData exists
         if (webApp.initData && !autoLoginStarted.current) {
           autoLoginStarted.current = true;
           handleLogin(webApp);
@@ -113,7 +110,6 @@ const StudentLogin = () => {
     }, 120);
 
     return () => clearInterval(timer);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const user = tg?.initDataUnsafe?.user;
