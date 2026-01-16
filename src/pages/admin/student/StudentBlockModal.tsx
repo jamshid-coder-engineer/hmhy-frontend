@@ -23,7 +23,7 @@ export function StudentBlockModal({ studentId, onClose }: { studentId: string; o
 
   return (
     <Dialog open={true} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[425px] border-none">
+      <DialogContent className="sm:max-w-106.25 border-none">
         <DialogHeader>
           <div className="flex items-center gap-3 mb-2">
             <div className={`p-2 rounded-full ${student?.isBlocked ? 'bg-emerald-100' : 'bg-orange-100'}`}>

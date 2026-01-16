@@ -77,6 +77,12 @@ export const TeacherProfile = () => {
         setIsEditing(true);
     };
 
+    const ensureEditing = () => {
+        if (!isEditing) {
+            handleEditClick();
+        }
+    };
+
     const handleCancel = () => {
         setIsEditing(false);
         setIsChangingPassword(false);
@@ -187,54 +193,55 @@ export const TeacherProfile = () => {
                                         {profile?.fullName?.charAt(0)}
                                     </AvatarFallback>
                                 </Avatar>
-                                {isEditing && (
-                                    <div className="mt-3 flex items-center gap-2">
-                                        <input
-                                            id="avatar-upload"
-                                            type="file"
-                                            accept="image/*"
-                                            className="hidden"
-                                            onChange={(e) => {
-                                                const file =
-                                                    e.target.files?.[0];
-                                                if (!file) return;
-                                                setAvatarFile(file);
-                                                setAvatarPreview(
-                                                    URL.createObjectURL(file)
-                                                );
-                                            }}
-                                        />
-                                        <label
-                                            htmlFor="avatar-upload"
-                                            className="inline-flex h-5 w-5 cursor-pointer items-center justify-center rounded-full border border-slate-200 bg-white text-slate-900 shadow-sm transition hover:bg-slate-50"
-                                            aria-label="Rasm yuklash"
-                                            title="Rasm yuklash"
-                                        >
-                                            <ImagePlus className="h-4 w-4" />
-                                        </label>
-                                        <label
-                                            htmlFor="avatar-upload"
-                                            className="inline-flex h-5 w-5 cursor-pointer items-center justify-center rounded-full border border-slate-200 bg-white text-slate-900 shadow-sm transition hover:bg-slate-50"
-                                            aria-label="Rasmni yangilash"
-                                            title="Rasmni yangilash"
-                                        >
-                                            <RefreshCw className="h-4 w-4" />
-                                        </label>
-                                        <Button
-                                            type="button"
-                                            variant="outline"
-                                            onClick={() => {
-                                                setAvatarFile(null);
-                                                setAvatarPreview("");
-                                            }}
-                                            className="h-5 w-5 rounded-full p-0"
-                                            aria-label="Remove"
-                                            title="Remove"
-                                        >
-                                            <Trash2 className="h-4 w-4" />
-                                        </Button>
-                                    </div>
-                                )}
+                                <div className="mt-3 flex items-center gap-2">
+                                    <input
+                                        id="avatar-upload"
+                                        type="file"
+                                        accept="image/*"
+                                        className="hidden"
+                                        onChange={(e) => {
+                                            ensureEditing();
+                                            const file = e.target.files?.[0];
+                                            if (!file) return;
+                                            setAvatarFile(file);
+                                            setAvatarPreview(
+                                                URL.createObjectURL(file)
+                                            );
+                                        }}
+                                    />
+                                    <label
+                                        htmlFor="avatar-upload"
+                                        onClick={ensureEditing}
+                                        className="inline-flex h-5 w-5 cursor-pointer items-center justify-center rounded-full border border-slate-200 bg-white text-slate-900 shadow-sm transition hover:bg-slate-50"
+                                        aria-label="Rasm yuklash"
+                                        title="Rasm yuklash"
+                                    >
+                                        <ImagePlus className="h-4 w-4" />
+                                    </label>
+                                    <label
+                                        htmlFor="avatar-upload"
+                                        onClick={ensureEditing}
+                                        className="inline-flex h-5 w-5 cursor-pointer items-center justify-center rounded-full border border-slate-200 bg-white text-slate-900 shadow-sm transition hover:bg-slate-50"
+                                        aria-label="Rasmni yangilash"
+                                        title="Rasmni yangilash"
+                                    >
+                                        <RefreshCw className="h-4 w-4" />
+                                    </label>
+                                    <Button
+                                        type="button"
+                                        variant="outline"
+                                        onClick={() => {
+                                            ensureEditing();
+                                            setAvatarFile(null);
+                                            setAvatarPreview("");
+                                        }}
+                                        className="h-5 w-5 rounded-full p-0"
+                                        aria-label="Remove"
+                                        title="Remove"
+                                    >
+                                        <Trash2 className="h-4 w-4" />
+                                    </Button>
+                                </div>
                             </div>
                             <div className="mt-4 sm:mt-0 text-center sm:text-left pb-2">
                                 <h2 className="text-4xl font-bold text-slate-900">
