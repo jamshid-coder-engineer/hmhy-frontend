@@ -1,18 +1,8 @@
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "../../../components/ui/card";
-import { Button } from "../../../components/ui/button";
-import { Badge } from "../../../components/ui/badge";
-import { Separator } from "../../../components/ui/separator";
-
-import {
-  Users,
-  GraduationCap,
-  BookOpen,
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '../../../components/ui/card'
+import { 
+  Users, 
+  GraduationCap, 
+  BookOpen, 
   DollarSign,
   CheckCircle,
   XCircle,
@@ -21,417 +11,341 @@ import {
   TrendingUp,
   ArrowRight,
   LayoutDashboard,
-  Sparkles,
   Activity,
-} from "lucide-react";
-
-import { useDashboardStats } from "../../../hooks/use-dashboard-stats";
-import { Link } from "react-router-dom";
+  Zap,
+  Award
+} from 'lucide-react'
+import { useDashboardStats } from '../../../hooks/use-dashboard-stats'
+import { Link } from 'react-router-dom'
+import { Button } from '../../../components/ui/button'
+import { Badge } from '../../../components/ui/badge'
 
 export const Dashboard = () => {
-  const { data, isLoading, isError } = useDashboardStats();
-  const username = localStorage.getItem("username") || "Admin";
+  const { data, isLoading, isError } = useDashboardStats()
+  const username = localStorage.getItem('username') || 'Admin'
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center min-h-[70vh] px-4">
-        <div className="flex flex-col items-center gap-4">
-          <div className="relative">
-            <Loader2 className="h-12 w-12 animate-spin text-blue-600" />
-            <LayoutDashboard className="h-6 w-6 absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-blue-400" />
+      <div className='flex items-center justify-center h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50'>
+        <div className='flex flex-col items-center gap-6'>
+          <div className='relative'>
+            <div className='absolute inset-0 bg-blue-500 blur-3xl opacity-20 animate-pulse' />
+            <Loader2 className='w-16 h-16 animate-spin text-blue-600 relative z-10' />
+            <LayoutDashboard className='w-8 h-8 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-blue-400' />
           </div>
-          <p className="text-xs font-black uppercase tracking-[0.3em] text-slate-500 animate-pulse">
-            Platforma yuklanmoqda...
-          </p>
+          <div className='text-center space-y-2'>
+            <p className='text-slate-700 font-bold text-lg animate-pulse'>Platforma yuklanmoqda</p>
+            <p className='text-slate-400 text-sm font-medium'>Iltimos kuting...</p>
+          </div>
         </div>
       </div>
-    );
+    )
   }
 
   if (isError || !data) {
     return (
-      <div className="flex items-center justify-center min-h-[70vh] px-4">
-        <Card className="w-full max-w-md border-none shadow-2xl">
-          <CardHeader className="text-center">
-            <div className="mx-auto mb-2 flex h-16 w-16 items-center justify-center rounded-full bg-red-50">
-              <XCircle className="h-8 w-8 text-red-500" />
+      <div className='flex items-center justify-center min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 p-6'>
+        <Card className='max-w-md w-full border-red-200 shadow-2xl'>
+          <CardContent className='p-8 text-center space-y-6'>
+            <div className='w-20 h-20 bg-gradient-to-br from-red-50 to-red-100 rounded-2xl flex items-center justify-center mx-auto shadow-lg'>
+              <XCircle className='w-10 h-10 text-red-600' />
             </div>
-            <CardTitle className="text-2xl font-black text-slate-900">
-              Xatolik yuz berdi
-            </CardTitle>
-            <CardDescription className="text-slate-500 font-medium">
-              Ma'lumotlarni olishda muammo paydo bo'ldi. Iltimos, internetingizni
-              tekshiring.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Button
-              onClick={() => window.location.reload()}
-              className="w-full h-11 font-bold"
+            <div className='space-y-2'>
+              <h2 className='text-2xl font-black text-slate-900'>Xatolik yuz berdi</h2>
+              <p className='text-slate-600 font-medium'>Ma'lumotlarni olishda muammo paydo bo'ldi. Iltimos, internetingizni tekshiring.</p>
+            </div>
+            <Button 
+              onClick={() => window.location.reload()} 
+              className='w-full bg-gradient-to-r from-slate-900 to-slate-700 hover:from-slate-800 hover:to-slate-600 font-bold h-12 rounded-xl shadow-lg'
             >
               Qayta urinish
             </Button>
           </CardContent>
         </Card>
       </div>
-    );
+    )
   }
 
-  const stats = data.data;
+  const stats = data.data
 
   const statsCards = [
     {
-      title: "Jami Ustozlar",
+      title: 'Jami Ustozlar',
       value: stats.totalTeachers,
-      sub: "+2 yangi",
+      trend: '+2 yangi',
       icon: Users,
-      accent: "bg-blue-600/10 text-blue-600 ring-blue-600/15",
-      chip: "border-blue-200 text-blue-700 bg-blue-50",
+      color: 'from-blue-500 to-blue-600',
+      bgColor: 'bg-blue-500/10',
+      iconColor: 'text-blue-600',
+      borderColor: 'border-blue-200',
     },
     {
-      title: "Jami Talabalar",
+      title: 'Jami Talabalar',
       value: stats.totalStudents,
-      sub: "+15 yangi",
+      trend: '+15 yangi',
       icon: GraduationCap,
-      accent: "bg-emerald-600/10 text-emerald-600 ring-emerald-600/15",
-      chip: "border-emerald-200 text-emerald-700 bg-emerald-50",
+      color: 'from-emerald-500 to-emerald-600',
+      bgColor: 'bg-emerald-500/10',
+      iconColor: 'text-emerald-600',
+      borderColor: 'border-emerald-200',
     },
     {
-      title: "Faol Darslar",
+      title: 'Faol Darslar',
       value: stats.totalLessons,
-      sub: "Ayni vaqtda",
+      trend: 'Ayni vaqtda',
       icon: BookOpen,
-      accent: "bg-violet-600/10 text-violet-600 ring-violet-600/15",
-      chip: "border-violet-200 text-violet-700 bg-violet-50",
+      color: 'from-purple-500 to-purple-600',
+      bgColor: 'bg-purple-500/10',
+      iconColor: 'text-purple-600',
+      borderColor: 'border-purple-200',
     },
     {
-      title: "Umumiy Tushum",
-      value: stats.totalRevenue.toLocaleString("uz-UZ"),
-      sub: "UZS",
+      title: 'Umumiy Tushum',
+      value: stats.totalRevenue.toLocaleString('uz-UZ'),
+      trend: 'Uzs',
       icon: DollarSign,
-      accent: "bg-amber-600/10 text-amber-600 ring-amber-600/15",
-      chip: "border-amber-200 text-amber-700 bg-amber-50",
-    },
-  ] as const;
-
-  const quickActions = [
-    {
-      title: "Ustozlar",
-      icon: Users,
-      link: "/app/admin/teacher",
-      iconWrap: "bg-blue-50 text-blue-700",
-    },
-    {
-      title: "Talabalar",
-      icon: GraduationCap,
-      link: "/app/admin/student",
-      iconWrap: "bg-emerald-50 text-emerald-700",
-    },
-    {
-      title: "Darslar",
-      icon: BookOpen,
-      link: "/app/admin/lesson",
-      iconWrap: "bg-violet-50 text-violet-700",
-    },
-    {
-      title: "To'lovlar",
-      icon: DollarSign,
-      link: "/app/admin/payment",
-      iconWrap: "bg-amber-50 text-amber-700",
-    },
-  ] as const;
+      color: 'from-orange-500 to-orange-600',
+      bgColor: 'bg-orange-500/10',
+      iconColor: 'text-orange-600',
+      borderColor: 'border-orange-200',
+    }
+  ]
 
   return (
-    <div className="min-h-screen bg-slate-50">
-      <div className="mx-auto w-full max-w-6xl px-4 py-6 space-y-6">
-        <div className="relative overflow-hidden rounded-3xl border bg-gradient-to-br from-slate-900 via-slate-900 to-slate-800 text-white shadow-2xl">
-          <div className="absolute -top-24 -right-24 h-72 w-72 rounded-full bg-blue-500/20 blur-3xl" />
-          <div className="absolute -bottom-24 -left-24 h-72 w-72 rounded-full bg-emerald-500/10 blur-3xl" />
-
-          <div className="relative z-10 p-6 md:p-8">
-            <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
-              <div className="space-y-3">
-                <div className="flex flex-wrap items-center gap-2">
-                  <Badge className="bg-white/10 text-white border-white/10 hover:bg-white/15">
-                    Admin Panel
-                  </Badge>
-                  <Badge
-                    variant="outline"
-                    className="border-white/10 text-white/80"
-                  >
-                    2026 Season
-                  </Badge>
-                  <div className="hidden sm:flex items-center gap-2 text-white/70 text-xs font-bold">
-                    <Activity className="h-4 w-4" />
-                    Real-time ko'rsatkichlar
-                  </div>
-                </div>
-
-                <div className="space-y-1">
-                  <h1 className="text-3xl md:text-4xl font-black tracking-tight">
-                    Xush kelibsiz,{" "}
-                    <span className="text-blue-300">{username}</span>!
-                  </h1>
-                  <p className="text-white/70 font-medium max-w-2xl">
-                    Bugun platformangizda o'sish kuzatilmoqda. Barcha
-                    ko'rsatkichlar nazorat ostida.
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex gap-3">
-                <Card className="border-white/10 bg-white/5 text-white backdrop-blur-md">
-                  <CardContent className="p-4">
-                    <div className="flex items-center gap-3">
-                      <div className="relative">
-                        <div className="h-2 w-2 rounded-full bg-emerald-400" />
-                        <div className="absolute inset-0 h-2 w-2 rounded-full bg-emerald-400 animate-ping opacity-60" />
-                      </div>
-                      <div>
-                        <p className="text-[10px] font-black uppercase tracking-widest text-white/60">
-                          Status
-                        </p>
-                        <p className="text-sm font-black text-emerald-300">
-                          Live
-                        </p>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-
-                <Card className="border-white/10 bg-white/5 text-white backdrop-blur-md hidden md:block">
-                  <CardContent className="p-4">
-                    <div className="flex items-center gap-3">
-                      <div className="h-9 w-9 rounded-2xl bg-blue-500/15 flex items-center justify-center">
-                        <Sparkles className="h-5 w-5 text-blue-300" />
-                      </div>
-                      <div>
-                        <p className="text-[10px] font-black uppercase tracking-widest text-white/60">
-                          Tavsiya
-                        </p>
-                        <p className="text-sm font-black text-white">
-                          Weekly review
-                        </p>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              </div>
+    <div className='min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/20 p-6 space-y-6'>
+      
+      {/* Hero Header */}
+      <div className='relative overflow-hidden rounded-3xl bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900 p-8 md:p-12 shadow-2xl'>
+        <div className='absolute inset-0 bg-grid-white/5 bg-[size:20px_20px]' />
+        <div className='absolute top-0 right-0 -translate-y-1/2 translate-x-1/4 w-96 h-96 bg-blue-500/30 rounded-full blur-3xl' />
+        <div className='absolute bottom-0 left-0 translate-y-1/2 -translate-x-1/4 w-96 h-96 bg-indigo-500/20 rounded-full blur-3xl' />
+        
+        <div className='relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6'>
+          <div className='space-y-4'>
+            <div className='flex items-center gap-3 flex-wrap'>
+              <Badge className='bg-blue-500/20 text-blue-200 border-blue-400/30 hover:bg-blue-500/30 backdrop-blur-sm font-bold px-4 py-1'>
+                <Zap className='w-3 h-3 mr-1' />
+                Admin Panel v2.0
+              </Badge>
+              <Badge className='bg-emerald-500/20 text-emerald-200 border-emerald-400/30 font-bold px-4 py-1'>
+                <Activity className='w-3 h-3 mr-1' />
+                2026 Season
+              </Badge>
             </div>
+            <div>
+              <h1 className='text-4xl md:text-5xl font-black tracking-tight text-white'>
+                Xush kelibsiz,
+              </h1>
+              <h2 className='text-4xl md:text-5xl font-black tracking-tight bg-gradient-to-r from-blue-400 to-indigo-400 bg-clip-text text-transparent mt-1'>
+                {username}! 👋
+              </h2>
+            </div>
+            <p className='text-blue-100 text-lg font-medium max-w-2xl'>
+              Bugun platformangizda o'sish kuzatilmoqda. Barcha ko'rsatkichlar joyida.
+            </p>
+          </div>
+          
+          <div className='flex gap-4'>
+            <Card className='bg-white/10 border-white/20 backdrop-blur-xl shadow-xl hover:bg-white/15 transition-all'>
+              <CardContent className='p-6 text-white min-w-[140px]'>
+                <p className='text-xs font-bold uppercase text-blue-200 mb-2 flex items-center gap-2'>
+                  <Activity className='w-3 h-3' />
+                  Status
+                </p>
+                <div className='flex items-center gap-2'>
+                  <div className='relative'>
+                    <div className='w-3 h-3 bg-emerald-400 rounded-full animate-pulse' />
+                    <div className='w-3 h-3 bg-emerald-400 rounded-full absolute top-0 animate-ping' />
+                  </div>
+                  <p className='text-emerald-300 font-black text-xl'>Live</p>
+                </div>
+              </CardContent>
+            </Card>
           </div>
         </div>
+      </div>
 
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
-          {statsCards.map((s) => {
-            const Icon = s.icon;
-            return (
-              <Card
-                key={s.title}
-                className="group border-none shadow-sm hover:shadow-xl transition-all duration-300 rounded-3xl"
-              >
-                <CardContent className="p-6">
-                  <div className="flex items-start justify-between gap-3">
-                    <div
-                      className={`h-12 w-12 rounded-2xl ring-1 flex items-center justify-center transition-transform duration-300 group-hover:scale-105 ${s.accent}`}
-                    >
-                      <Icon className="h-6 w-6" />
-                    </div>
-
-                    <Badge
-                      variant="outline"
-                      className={`text-[10px] font-black uppercase tracking-widest ${s.chip}`}
-                    >
-                      {s.sub}
-                    </Badge>
-                  </div>
-
-                  <div className="mt-4 space-y-1">
-                    <p className="text-xs font-black uppercase tracking-widest text-slate-500">
-                      {s.title}
-                    </p>
-                    <div className="flex items-end justify-between">
-                      <p className="text-3xl font-black text-slate-900 leading-none">
-                        {s.value}
-                      </p>
-                      <span className="text-xs font-bold text-slate-400">
-                        {s.title === "Umumiy Tushum" ? "UZS" : ""}
-                      </span>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            );
-          })}
-        </div>
-
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
-          <Card className="border-none shadow-sm rounded-3xl">
-            <CardHeader className="pb-4">
-              <div className="flex items-center gap-3">
-                <div className="h-10 w-10 rounded-2xl bg-emerald-50 text-emerald-700 flex items-center justify-center">
-                  <GraduationCap className="h-5 w-5" />
+      {/* Stats Cards */}
+      <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6'>
+        {statsCards.map((stat) => ( 
+          <Card 
+            key={stat.title} 
+            className={`border-2 ${stat.borderColor} bg-white shadow-lg hover:shadow-2xl transition-all duration-300 group overflow-hidden relative`}
+          >
+            <div className={`absolute inset-0 bg-gradient-to-br ${stat.color} opacity-0 group-hover:opacity-5 transition-opacity`} />
+            <CardContent className='p-6 relative z-10'>
+              <div className='flex justify-between items-start mb-6'>
+                <div className={`p-4 rounded-2xl ${stat.bgColor} group-hover:scale-110 transition-transform duration-300 shadow-sm`}>
+                  <stat.icon className={`w-7 h-7 ${stat.iconColor}`} />
                 </div>
-                <div>
-                  <CardTitle className="text-lg font-black text-slate-900">
-                    Talabalar
-                  </CardTitle>
-                  <CardDescription className="text-xs font-bold">
-                    O'sish dinamikasi
-                  </CardDescription>
-                </div>
+                <Badge variant="outline" className='text-xs font-bold border-slate-200 bg-slate-50 px-3 py-1'>
+                  {stat.trend}
+                </Badge>
               </div>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="rounded-2xl border bg-emerald-50/60 p-4 flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <CheckCircle className="h-5 w-5 text-emerald-700" />
-                  <p className="font-bold text-slate-800">
-                    Faol foydalanuvchilar
-                  </p>
-                </div>
-                <p className="text-2xl font-black text-emerald-800">
-                  {stats.totalStudents}
-                </p>
-              </div>
-
-              <div className="rounded-2xl border bg-red-50/60 p-4 flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <XCircle className="h-5 w-5 text-red-700" />
-                  <p className="font-bold text-slate-800">Bloklanganlar</p>
-                </div>
-                <p className="text-2xl font-black text-red-800">0</p>
+              <div className='space-y-2'>
+                <h3 className='text-slate-500 text-xs font-black uppercase tracking-wider'>{stat.title}</h3>
+                <p className='text-4xl font-black text-slate-900'>{stat.value}</p>
               </div>
             </CardContent>
           </Card>
+        ))}
+      </div>
 
-          <Card className="border-none shadow-sm rounded-3xl">
-            <CardHeader className="pb-4">
-              <div className="flex items-center gap-3">
-                <div className="h-10 w-10 rounded-2xl bg-blue-50 text-blue-700 flex items-center justify-center">
-                  <Users className="h-5 w-5" />
-                </div>
-                <div>
-                  <CardTitle className="text-lg font-black text-slate-900">
-                    Ustozlar
-                  </CardTitle>
-                  <CardDescription className="text-xs font-bold">
-                    Reyting ko'rsatkichlari
-                  </CardDescription>
-                </div>
+      {/* Details Section */}
+      <div className='grid grid-cols-1 lg:grid-cols-3 gap-6'>
+        {/* Students Card */}
+        <Card className='border-2 border-emerald-200 shadow-lg bg-gradient-to-br from-white to-emerald-50/30'>
+          <CardHeader className='pb-4'>
+            <div className='flex items-center gap-3'>
+              <div className='p-3 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-2xl shadow-lg'>
+                <GraduationCap className='w-6 h-6 text-white' />
               </div>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="rounded-2xl border bg-blue-50/60 p-4 flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <TrendingUp className="h-5 w-5 text-blue-700" />
-                  <p className="font-bold text-slate-800">Jami mutaxassislar</p>
-                </div>
-                <p className="text-2xl font-black text-blue-800">
-                  {stats.totalTeachers}
-                </p>
+              <div>
+                <CardTitle className='text-xl font-black text-slate-900'>Talabalar</CardTitle>
+                <CardDescription className='text-sm font-bold text-emerald-600'>O'sish dinamikasi</CardDescription>
               </div>
-
-              <div className="rounded-2xl border bg-amber-50/60 p-4 flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <Star className="h-5 w-5 text-amber-600 fill-amber-500" />
-                  <p className="font-bold text-slate-800">O'rtacha sifat</p>
-                </div>
-                <p className="text-2xl font-black text-amber-800">4.9</p>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="border-none shadow-sm rounded-3xl bg-gradient-to-br from-white to-slate-50">
-            <CardHeader className="pb-4">
-              <div className="flex items-center gap-3">
-                <div className="h-10 w-10 rounded-2xl bg-violet-50 text-violet-700 flex items-center justify-center">
-                  <DollarSign className="h-5 w-5" />
-                </div>
-                <div>
-                  <CardTitle className="text-lg font-black text-slate-900">
-                    Moliya
-                  </CardTitle>
-                  <CardDescription className="text-xs font-bold">
-                    Moliyaviy hisobot
-                  </CardDescription>
-                </div>
-              </div>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="rounded-2xl border bg-slate-900 text-white p-4 flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <DollarSign className="h-5 w-5 text-blue-300" />
-                  <p className="font-black">Sof foyda</p>
-                </div>
-                <p className="text-xl font-black">
-                  {(stats.totalRevenue / 1000).toFixed(1)}K{" "}
-                  <span className="text-[10px] font-black uppercase tracking-widest text-white/60">
-                    uzs
-                  </span>
-                </p>
-              </div>
-
-              <Button
-                variant="outline"
-                className="w-full h-12 rounded-2xl font-black border-dashed border-2 group"
-                asChild
-              >
-                <Link to="/app/admin/payment">
-                  Barcha to'lovlarni ko'rish
-                  <ArrowRight className="h-4 w-4 ml-2 group-hover:translate-x-1 transition-transform" />
-                </Link>
-              </Button>
-            </CardContent>
-          </Card>
-        </div>
-
-        <Card className="border-none shadow-sm rounded-3xl overflow-hidden">
-          <CardHeader className="pb-3">
-            <CardTitle className="text-xl font-black text-slate-900">
-              Tezkor Harakatlar
-            </CardTitle>
-            <CardDescription className="font-medium">
-              Bo'limlarga tezkor o'tish tugmalari
-            </CardDescription>
+            </div>
           </CardHeader>
-
-          <CardContent className="pt-0">
-            <Separator className="mb-4" />
-            <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
-              {quickActions.map((a) => {
-                const Icon = a.icon;
-                return (
-                  <Link
-                    key={a.title}
-                    to={a.link}
-                    className="group rounded-3xl border bg-white p-5 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-0.5"
-                  >
-                    <div className="flex items-center justify-between">
-                      <div
-                        className={`h-11 w-11 rounded-2xl flex items-center justify-center ${a.iconWrap}`}
-                      >
-                        <Icon className="h-6 w-6" />
-                      </div>
-                      <div className="h-9 w-9 rounded-2xl bg-slate-50 flex items-center justify-center text-slate-500 group-hover:bg-slate-900 group-hover:text-white transition-colors">
-                        <ArrowRight className="h-4 w-4" />
-                      </div>
-                    </div>
-
-                    <div className="mt-4">
-                      <p className="text-sm font-black text-slate-900">
-                        {a.title}
-                      </p>
-                      <p className="text-xs font-medium text-slate-500 mt-1">
-                        Bolimga otish
-                      </p>
-                    </div>
-                  </Link>
-                );
-              })}
+          <CardContent className='space-y-4'>
+            <div className='p-5 rounded-2xl bg-emerald-50 border-2 border-emerald-200 flex items-center justify-between hover:border-emerald-300 transition-colors'>
+              <div className='flex items-center gap-3'>
+                <div className='p-2 bg-emerald-500 rounded-xl'>
+                  <CheckCircle className='w-5 h-5 text-white' />
+                </div>
+                <span className='font-bold text-slate-700'>Faol foydalanuvchilar</span>
+              </div>
+              <span className='text-3xl font-black text-emerald-700'>{stats.totalStudents}</span>
+            </div>
+            <div className='p-5 rounded-2xl bg-red-50 border-2 border-red-200 flex items-center justify-between hover:border-red-300 transition-colors'>
+              <div className='flex items-center gap-3'>
+                <div className='p-2 bg-red-500 rounded-xl'>
+                  <XCircle className='w-5 h-5 text-white' />
+                </div>
+                <span className='font-bold text-slate-700'>Bloklanganlar</span>
+              </div>
+              <span className='text-3xl font-black text-red-700'>0</span>
             </div>
           </CardContent>
         </Card>
+
+        {/* Teachers Card */}
+        <Card className='border-2 border-blue-200 shadow-lg bg-gradient-to-br from-white to-blue-50/30'>
+          <CardHeader className='pb-4'>
+            <div className='flex items-center gap-3'>
+              <div className='p-3 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl shadow-lg'>
+                <Users className='w-6 h-6 text-white' />
+              </div>
+              <div>
+                <CardTitle className='text-xl font-black text-slate-900'>Ustozlar</CardTitle>
+                <CardDescription className='text-sm font-bold text-blue-600'>Reyting ko'rsatkichlari</CardDescription>
+              </div>
+            </div>
+          </CardHeader>
+          <CardContent className='space-y-4'>
+            <div className='p-5 rounded-2xl bg-blue-50 border-2 border-blue-200 flex items-center justify-between hover:border-blue-300 transition-colors'>
+              <div className='flex items-center gap-3'>
+                <div className='p-2 bg-blue-500 rounded-xl'>
+                  <TrendingUp className='w-5 h-5 text-white' />
+                </div>
+                <span className='font-bold text-slate-700'>Jami mutaxassislar</span>
+              </div>
+              <span className='text-3xl font-black text-blue-700'>{stats.totalTeachers}</span>
+            </div>
+            <div className='p-5 rounded-2xl bg-amber-50 border-2 border-amber-200 flex items-center justify-between hover:border-amber-300 transition-colors'>
+              <div className='flex items-center gap-3'>
+                <div className='p-2 bg-gradient-to-br from-amber-400 to-amber-500 rounded-xl'>
+                  <Star className='w-5 h-5 text-white fill-white' />
+                </div>
+                <span className='font-bold text-slate-700'>O'rtacha sifat</span>
+              </div>
+              <span className='text-3xl font-black text-amber-700'>4.9</span>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Finance Card */}
+        <Card className='border-2 border-purple-200 shadow-lg bg-gradient-to-br from-white to-purple-50/30'>
+          <CardHeader className='pb-4'>
+            <div className='flex items-center gap-3'>
+              <div className='p-3 bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl shadow-lg'>
+                <BookOpen className='w-6 h-6 text-white' />
+              </div>
+              <div>
+                <CardTitle className='text-xl font-black text-slate-900'>Moliya & Ta'lim</CardTitle>
+                <CardDescription className='text-sm font-bold text-purple-600'>Moliyaviy hisobot</CardDescription>
+              </div>
+            </div>
+          </CardHeader>
+          <CardContent className='space-y-4'>
+            <div className='p-5 rounded-2xl bg-gradient-to-br from-slate-900 to-slate-800 text-white shadow-xl'>
+              <div className='flex items-center justify-between'>
+                <div className='flex items-center gap-3'>
+                  <div className='p-2 bg-blue-500/20 rounded-xl backdrop-blur-sm'>
+                    <DollarSign className='w-5 h-5 text-blue-400' />
+                  </div>
+                  <span className='font-bold text-lg'>Sof foyda</span>
+                </div>
+                <div className='text-right'>
+                  <span className='text-2xl font-black'>{(stats.totalRevenue / 1000).toFixed(1)}K</span>
+                  <p className='text-xs text-slate-400 uppercase font-bold'>uzs</p>
+                </div>
+              </div>
+            </div>
+            <Button 
+              variant="outline" 
+              className='w-full h-14 rounded-2xl border-2 border-dashed border-purple-300 font-bold group hover:bg-purple-50 hover:border-purple-400 transition-all' 
+              asChild
+            >
+              <Link to="/app/admin/payment">
+                Barcha to'lovlarni ko'rish
+                <ArrowRight className='w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform' />
+              </Link>
+            </Button>
+          </CardContent>
+        </Card>
       </div>
+
+      {/* Quick Actions */}
+      <Card className='border-2 border-slate-200 shadow-lg bg-white'>
+        <CardHeader className='pb-4'>
+          <div className='flex items-center gap-3'>
+            <div className='p-2 bg-gradient-to-br from-indigo-500 to-indigo-600 rounded-xl'>
+              <Zap className='w-5 h-5 text-white' />
+            </div>
+            <div>
+              <CardTitle className='text-2xl font-black text-slate-900'>Tezkor Harakatlar</CardTitle>
+              <CardDescription className='font-medium text-slate-600'>Bo'limlarga tezkor o'tish tugmalari</CardDescription>
+            </div>
+          </div>
+        </CardHeader>
+        <CardContent className='p-6'>
+          <div className='grid grid-cols-2 md:grid-cols-4 gap-4'>
+            {[
+              { title: 'Ustozlar', icon: Users, color: 'from-blue-500 to-blue-600', bgColor: 'bg-blue-50', iconBg: 'bg-blue-500', link: '/app/admin/teacher' },
+              { title: 'Talabalar', icon: GraduationCap, color: 'from-emerald-500 to-emerald-600', bgColor: 'bg-emerald-50', iconBg: 'bg-emerald-500', link: '/app/admin/student' },
+              { title: 'Darslar', icon: BookOpen, color: 'from-purple-500 to-purple-600', bgColor: 'bg-purple-50', iconBg: 'bg-purple-500', link: '/app/admin/lesson' },
+              { title: "To'lovlar", icon: DollarSign, color: 'from-orange-500 to-orange-600', bgColor: 'bg-orange-50', iconBg: 'bg-orange-500', link: '/app/admin/payment' }
+            ].map((item) => (
+              <Link
+                key={item.title}
+                to={item.link}
+                className='group relative flex flex-col items-center p-6 rounded-2xl bg-white border-2 border-slate-200 hover:border-transparent hover:shadow-2xl transition-all duration-300 overflow-hidden'
+              >
+                <div className={`absolute inset-0 bg-gradient-to-br ${item.color} opacity-0 group-hover:opacity-100 transition-opacity duration-300`} />
+                <div className='relative z-10 space-y-4 flex flex-col items-center'>
+                  <div className={`p-4 rounded-2xl ${item.bgColor} group-hover:bg-white/20 transition-all duration-300 shadow-lg group-hover:shadow-xl`}>
+                    <item.icon className={`w-7 h-7 text-${item.iconBg.replace('bg-', '')} group-hover:text-white transition-colors`} />
+                  </div>
+                  <p className='text-sm font-black text-slate-700 group-hover:text-white transition-colors text-center'>
+                    {item.title}
+                  </p>
+                </div>
+                <div className={`absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r ${item.color} scale-x-0 group-hover:scale-x-100 transition-transform duration-300`} />
+              </Link>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
     </div>
-  );
-};
+  )
+}
