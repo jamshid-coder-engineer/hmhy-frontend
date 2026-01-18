@@ -10,7 +10,7 @@ export const TeacherLogin = () => {
 
   const navigate = useNavigate()
   const [email, setEmail] = useState('saribayevj1666@gmail.com')
-  const [password, setPassword] = useState('qwerty12')
+  const [password, setPassword] = useState('qwerty11')
   const [loading, setLoading] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
 

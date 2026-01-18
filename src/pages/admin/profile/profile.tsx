@@ -1,33 +1,28 @@
+import { useState } from "react";
+import { toast } from "sonner";
+import { 
+    Pencil, Lock, User, Shield, 
+    Calendar, Save, Clock, 
+} from "lucide-react";
+
 import { useProfile } from "../service/query/useProfile";
+import { useEditProfile, useChangePassword } from "../service/mutate/useEditProfile";
+
 import { Button } from "../../../components/ui/button";
 import { Input } from "../../../components/ui/input";
 import { Skeleton } from "../../../components/ui/skeleton";
-import {
-    Pencil,
-    Lock,
-    User,
-    Phone,
-    Shield,
-    Calendar,
-    Save,
-    X,
-} from "lucide-react";
 import { Spinner } from "../../../components/ui/spinner";
-import {
-    useEditProfile,
-    useChangePassword,
-} from "../service/mutate/useEditProfile";
-import { useState } from "react";
-import { toast } from "sonner";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "../../../components/ui/card";
+import { Badge } from "../../../components/ui/badge";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../../components/ui/tabs";
+import { Separator } from "../../../components/ui/separator";
 
 export const ProfilePage = () => {
     const { data, isPending, refetch } = useProfile();
     const [isEditing, setIsEditing] = useState(false);
-    const [isChangingPassword, setIsChangingPassword] = useState(false);
-    const [editedData, setEditedData] = useState({
-        username: "",
-        phoneNumber: "",
-    });
+    const [activeTab, setActiveTab] = useState("info");
+    
+    const [editedData, setEditedData] = useState({ username: "", phoneNumber: "" });
     const [passwordData, setPasswordData] = useState({
         currentPassword: "",
         newPassword: "",
@@ -38,77 +33,11 @@ export const ProfilePage = () => {
         username: editedData.username,
         phone: editedData.phoneNumber,
     });
-    const { mutate: changePassword, isPending: isChangingPass } =
-        useChangePassword();
+    const { mutate: changePassword, isPending: isChangingPass } = useChangePassword();
 
-    if (isPending) {
-        return (
-            <div>
-                <div className="flex items-center justify-between mb-8">
-                    <Skeleton className="h-9 w-40" />
-                    <div className="flex gap-3">
-                        <Skeleton className="h-10 w-32 rounded-md" />
-                        <Skeleton className="h-10 w-40 rounded-md" />
-                    </div>
-                </div>
+    const profile = data?.data;
 
-                <div className="bg-white rounded-lg border border-gray-200 p-8">
-                    <div className="flex items-center gap-2 mb-8">
-                        <Skeleton className="h-5 w-5 rounded" />
-                        <Skeleton className="h-6 w-48" />
-                    </div>
-
-                    <div className="space-y-8">
-                        <div>
-                            <div className="flex items-center gap-2 mb-3">
-                                <Skeleton className="h-4 w-4 rounded" />
-                                <Skeleton className="h-4 w-20" />
-                            </div>
-                            <Skeleton className="h-11 w-full rounded-md" />
-                        </div>
-
-                        <div>
-                            <div className="flex items-center gap-2 mb-3">
-                                <Skeleton className="h-4 w-4 rounded" />
-                                <Skeleton className="h-4 w-16" />
-                            </div>
-                            <Skeleton className="h-11 w-full rounded-md" />
-                        </div>
-
-                        <div>
-                            <div className="flex items-center gap-2 mb-3">
-                                <Skeleton className="h-4 w-4 rounded" />
-                                <Skeleton className="h-4 w-12" />
-                            </div>
-                            <Skeleton className="h-7 w-24 rounded" />
-                        </div>
-
-                        <div>
-                            <div className="flex items-center gap-2 mb-3">
-                                <Skeleton className="h-4 w-4 rounded" />
-                                <Skeleton className="h-4 w-28" />
-                            </div>
-                            <div className="bg-gray-50 border border-gray-200 rounded-md px-4 py-3">
-                                <Skeleton className="h-5 w-48 mb-2" />
-                                <Skeleton className="h-3 w-16" />
-                            </div>
-                        </div>
-
-                        <div>
-                            <Skeleton className="h-4 w-24 mb-3" />
-                            <div className="bg-gray-50 border border-gray-200 rounded-md px-4 py-3">
-                                <Skeleton className="h-5 w-48 mb-2" />
-                                <Skeleton className="h-3 w-16" />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        );
-    }
-
-    const profile = data?.data
-    console.log(profile)
+    if (isPending) return <ProfileSkeleton />;
 
     const handleEdit = () => {
         setEditedData({
@@ -116,380 +45,220 @@ export const ProfilePage = () => {
             phoneNumber: profile?.phoneNumber || "",
         });
         setIsEditing(true);
-        setIsChangingPassword(false);
-    };
-
-    const handleChangePasswordClick = () => {
-        setPasswordData({
-            currentPassword: "",
-            newPassword: "",
-            confirmPassword: "",
-        });
-        setIsChangingPassword(true);
-        setIsEditing(false);
     };
 
     const handleCancel = () => {
         setIsEditing(false);
-        setIsChangingPassword(false);
-        setEditedData({
-            username: "",
-            phoneNumber: "",
-        });
-        setPasswordData({
-            currentPassword: "",
-            newPassword: "",
-            confirmPassword: "",
-        });
+        setEditedData({ username: "", phoneNumber: "" });
+        setPasswordData({ currentPassword: "", newPassword: "", confirmPassword: "" });
     };
 
     const handleSave = () => {
         updateProfile(editedData as any, {
             onSuccess: () => {
-                toast.success("Profile updated successfully!");
+                toast.success("Profil muvaffaqiyatli yangilandi!");
                 setIsEditing(false);
                 refetch();
             },
-            onError: (error: any) => {
-                toast.error(
-                    error?.response?.data?.message || "Failed to update profile"
-                );
-            },
+            onError: (err) => toast.error(err?.message || "Xatolik yuz berdi"),
         });
     };
 
     const handlePasswordChange = () => {
         if (passwordData.newPassword !== passwordData.confirmPassword) {
-            toast.error("New passwords do not match!");
-            return;
+            return toast.error("Yangi parollar mos kelmadi!");
         }
-
-        changePassword(
-            {
-                currentPassword: passwordData.currentPassword,
-                newPassword: passwordData.newPassword,
+        changePassword({
+            currentPassword: passwordData.currentPassword,
+            newPassword: passwordData.newPassword,
+        }, {
+            onSuccess: () => {
+                toast.success("Parol o'zgartirildi!");
+                setPasswordData({ currentPassword: "", newPassword: "", confirmPassword: "" });
+                setActiveTab("info");
             },
-            {
-                onSuccess: () => {
-                    toast.success("Password changed successfully!");
-                    setIsChangingPassword(false);
-                    setPasswordData({
-                        currentPassword: "",
-                        newPassword: "",
-                        confirmPassword: "",
-                    });
-                },
-                onError: (error: any) => {
-                    toast.error(
-                        error?.response?.data?.message ||
-                            "Failed to change password"
-                    );
-                },
-            }
-        );
+            onError: (err) => toast.error(err?.message || "Xatolik yuz berdi"),
+        });
     };
 
     return (
-        <div>
-            <div className="flex items-center justify-between mb-8">
-                <h1 className="text-3xl font-bold text-gray-900">My Profile</h1>
-                {!isEditing && !isChangingPassword && (
-                    <div className="flex gap-3">
-                        <Button
-                            variant="outline"
-                            onClick={handleEdit}
-                            className="flex items-center gap-2 bg-white hover:bg-gray-50 border-gray-300 text-black"
-                        >
-                            <Pencil className="h-4 w-4" />
-                            Edit Profile
-                        </Button>
-                        <Button
-                            variant="outline"
-                            onClick={handleChangePasswordClick}
-                            className="flex items-center gap-2 bg-white hover:bg-gray-50 border-gray-300 text-black"
-                        >
-                            <Lock className="h-4 w-4" />
-                            Change Password
-                        </Button>
-                    </div>
+        <div className=" space-y-8 animate-in fade-in duration-500">
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+                <div>
+                    <h1 className="text-4xl font-extrabold tracking-tight text-slate-900">Kabinet</h1>
+                    <p className="text-slate-500 mt-2">Shaxsiy ma'lumotlaringiz va xavfsizlik sozlamalari</p>
+                </div>
+                {!isEditing && activeTab === "info" && (
+                    <Button onClick={handleEdit} size="lg" className="shadow-lg hover:shadow-xl transition-all">
+                        <Pencil className="w-4 h-4 mr-2" /> Tahrirlash
+                    </Button>
                 )}
             </div>
 
-            {isChangingPassword && (
-                <div className="bg-white rounded-lg border border-gray-200 p-8">
-                    <div className="flex items-center gap-2 mb-8">
-                        <Lock className="h-5 w-5 text-gray-700" />
-                        <h2 className="text-lg font-semibold text-gray-900">
-                            Change Password
-                        </h2>
-                    </div>
+            <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+                <TabsList className="grid w-full max-w-[400px] grid-cols-2 mb-8">
+                    <TabsTrigger value="info">Ma'lumotlar</TabsTrigger>
+                    <TabsTrigger value="security">Xavfsizlik</TabsTrigger>
+                </TabsList>
 
-                    <div className="space-y-6">
-                        <div>
-                            <label className="text-sm font-medium text-gray-700 block mb-2">
-                                Current Password
-                            </label>
-                            <Input
-                                type="password"
-                                value={passwordData.currentPassword}
-                                onChange={(e) =>
-                                    setPasswordData({
-                                        ...passwordData,
-                                        currentPassword: e.target.value,
-                                    })
-                                }
-                                className="bg-white border-gray-300 text-gray-900"
-                                placeholder="Enter current password"
-                            />
-                        </div>
-
-                        <div>
-                            <label className="text-sm font-medium text-gray-700 block mb-2">
-                                New Password
-                            </label>
-                            <Input
-                                type="password"
-                                value={passwordData.newPassword}
-                                onChange={(e) =>
-                                    setPasswordData({
-                                        ...passwordData,
-                                        newPassword: e.target.value,
-                                    })
-                                }
-                                className="bg-white border-gray-300 text-gray-900"
-                                placeholder="Enter new password"
-                            />
-                        </div>
-
-                        <div>
-                            <label className="text-sm font-medium text-gray-700 block mb-2">
-                                Confirm New Password
-                            </label>
-                            <Input
-                                type="password"
-                                value={passwordData.confirmPassword}
-                                onChange={(e) =>
-                                    setPasswordData({
-                                        ...passwordData,
-                                        confirmPassword: e.target.value,
-                                    })
-                                }
-                                className="bg-white border-gray-300 text-gray-900"
-                                placeholder="Confirm new password"
-                            />
-                        </div>
-                    </div>
-
-                    <div className="flex items-center gap-3 mt-8 pt-6 border-t border-gray-200">
-                        <Button
-                            onClick={handlePasswordChange}
-                            disabled={isChangingPass}
-                            className="bg-black hover:bg-gray-800 text-white"
-                        >
-                            {isChangingPass ? (
-                                <>
-                                    <Spinner className="w-4 h-4 mr-2" />
-                                    Changing...
-                                </>
-                            ) : (
-                                <>
-                                    <Lock className="h-4 w-4 mr-2" />
-                                    Change Password
-                                </>
-                            )}
-                        </Button>
-                        <Button
-                            onClick={handleCancel}
-                            variant="outline"
-                            disabled={isChangingPass}
-                            className="border-gray-300 text-black"
-                        >
-                            <X className="h-4 w-4 mr-2" />
-                            Cancel
-                        </Button>
-                    </div>
-                </div>
-            )}
-
-            {!isChangingPassword && (
-                <div className="bg-white rounded-lg border border-gray-200 p-8">
-                    <div className="flex items-center gap-2 mb-8">
-                        <User className="h-5 w-5 text-gray-700" />
-                        <h2 className="text-lg font-semibold text-gray-900">
-                            Profile Information
-                        </h2>
-                    </div>
-
-                    <div className="space-y-8">
-                        <div>
-                            <div className="flex items-center gap-2 mb-3">
-                                <User className="h-4 w-4 text-gray-600" />
-                                <label className="text-sm font-medium text-gray-700">
-                                    Username
-                                </label>
-                            </div>
-                            {isEditing ? (
-                                <Input
-                                    value={editedData.username}
-                                    onChange={(e) =>
-                                        setEditedData({
-                                            ...editedData,
-                                            username: e.target.value,
-                                        })
-                                    }
-                                    className="bg-white border-gray-300 text-gray-900"
-                                />
-                            ) : (
-                                <div className="bg-gray-50 border border-gray-200 rounded-md px-4 py-3">
-                                    <p className="text-gray-900 font-medium">
-                                        {profile?.username || "superadmin"
-                                        }
-                                    </p>
+                <TabsContent value="info" className="space-y-6">
+                    <Card className="border-none shadow-md overflow-hidden bg-white/50 backdrop-blur-sm">
+                        <CardHeader className="bg-slate-50/50 border-b">
+                            <div className="flex items-center gap-3">
+                                <div className="p-2 bg-blue-100 text-blue-600 rounded-lg">
+                                    <User className="w-5 h-5" />
                                 </div>
-                            )}
-                        </div>
-
-                        <div>
-                            <div className="flex items-center gap-2 mb-3">
-                                <Phone className="h-4 w-4 text-gray-600" />
-                                <label className="text-sm font-medium text-gray-700">
-                                    Phone
-                                </label>
-                            </div>
-                            {isEditing ? (
-                                <Input
-                                    value={editedData.phoneNumber}
-                                    onChange={(e) =>
-                                        setEditedData({
-                                            ...editedData,
-                                            phoneNumber: e.target.value,
-                                        })
-                                    }
-                                    className="bg-white border-gray-300 text-gray-900"
-                                    placeholder="+998991234568"
-                                />
-                            ) : (
-                                <div className="bg-gray-50 border border-gray-200 rounded-md px-4 py-3">
-                                    <p className="text-gray-900 font-medium">
-                                        {profile?.phoneNumber ||
-                                            "+998991234568"}
-                                    </p>
+                                <div>
+                                    <CardTitle>Profil ma'lumotlari</CardTitle>
+                                    <CardDescription>Boshqa foydalanuvchilar ko'radigan ma'lumotlar</CardDescription>
                                 </div>
-                            )}
-                        </div>
+                            </div>
+                        </CardHeader>
+                        <CardContent className="p-6 space-y-6">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                <div className="space-y-2">
+                                    <label className="text-sm font-semibold text-slate-600">Foydalanuvchi nomi</label>
+                                    {isEditing ? (
+                                        <Input 
+                                            value={editedData.username} 
+                                            onChange={(e) => setEditedData({...editedData, username: e.target.value})}
+                                            className="focus-visible:ring-blue-500"
+                                        />
+                                    ) : (
+                                        <div className="flex items-center text-slate-900 font-medium py-2 px-1 border-b border-transparent">
+                                            {profile?.username || "Admin"}
+                                        </div>
+                                    )}
+                                </div>
 
-                        <div>
-                            <div className="flex items-center gap-2 mb-3">
-                                <Shield className="h-4 w-4 text-gray-600" />
-                                <label className="text-sm font-medium text-gray-700">
-                                    Role
-                                </label>
-                            </div>
-                            <div>
-                                <span className="inline-flex items-center px-4 py-1.5 bg-red-50 text-red-700 text-sm font-bold rounded border border-red-200">
-                                    {profile?.role?.toUpperCase() || "ADMIN"}
-                                </span>
-                            </div>
-                        </div>
+                                <div className="space-y-2">
+                                    <label className="text-sm font-semibold text-slate-600">Telefon raqam</label>
+                                    {isEditing ? (
+                                        <Input 
+                                            value={editedData.phoneNumber} 
+                                            onChange={(e) => setEditedData({...editedData, phoneNumber: e.target.value})}
+                                            className="focus-visible:ring-blue-500"
+                                        />
+                                    ) : (
+                                        <div className="flex items-center text-slate-900 font-medium py-2 px-1 border-b border-transparent">
+                                            {profile?.phoneNumber || "+998 -- --- -- --"}
+                                        </div>
+                                    )}
+                                </div>
 
-                        <div>
-                            <div className="flex items-center gap-2 mb-3">
-                                <Calendar className="h-4 w-4 text-gray-600" />
-                                <label className="text-sm font-medium text-gray-700">
-                                    Member Since
-                                </label>
-                            </div>
-                            <div className="bg-gray-50 border border-gray-200 rounded-md px-4 py-3">
-                                <p className="text-gray-900 font-medium">
-                                    {profile?.createdAt
-                                        ? new Date(
-                                              profile.createdAt
-                                          ).toLocaleDateString("uz-UZ", {
-                                              day: "2-digit",
-                                              month: "long",
-                                              year: "numeric",
-                                              hour: "2-digit",
-                                              minute: "2-digit",
-                                          })
-                                        : "18 Dekabr 2025, 16:26"}
-                                </p>
-                                <p className="text-xs text-gray-500 mt-1.5">
-                                    {profile?.createdAt
-                                        ? new Date(
-                                              profile.createdAt
-                                          ).toLocaleTimeString("uz-UZ", {
-                                              hour: "2-digit",
-                                              minute: "2-digit",
-                                          })
-                                        : "16:26"}
-                                </p>
-                            </div>
-                        </div>
+                                <div className="space-y-2">
+                                    <label className="text-sm font-semibold text-slate-600">Roli</label>
+                                    <div>
+                                        <Badge variant="secondary" className="bg-rose-50 text-rose-600 border-rose-100 px-3 py-1 uppercase tracking-wider">
+                                            <Shield className="w-3 h-3 mr-1" />
+                                            {profile?.role || "ADMIN"}
+                                        </Badge>
+                                    </div>
+                                </div>
 
-                        <div>
-                            <label className="text-sm font-medium text-gray-700 block mb-3">
-                                Last Updated
-                            </label>
-                            <div className="bg-gray-50 border border-gray-200 rounded-md px-4 py-3">
-                                <p className="text-gray-900 font-medium">
-                                    {profile?.updatedAt
-                                        ? new Date(
-                                              profile.updatedAt
-                                          ).toLocaleDateString("uz-UZ", {
-                                              day: "2-digit",
-                                              month: "long",
-                                              year: "numeric",
-                                              hour: "2-digit",
-                                              minute: "2-digit",
-                                          })
-                                        : "05 Yanvar 2026, 17:23"}
-                                </p>
-                                <p className="text-xs text-gray-500 mt-1.5">
-                                    {profile?.updatedAt
-                                        ? new Date(
-                                              profile.updatedAt
-                                          ).toLocaleTimeString("uz-UZ", {
-                                              hour: "2-digit",
-                                              minute: "2-digit",
-                                          })
-                                        : "17:23"}
-                                </p>
+                                <div className="space-y-2">
+                                    <label className="text-sm font-semibold text-slate-600">A'zo bo'lgan sana</label>
+                                    <div className="flex items-center text-slate-500 text-sm">
+                                        <Calendar className="w-4 h-4 mr-2" />
+                                        {profile?.createdAt ? new Date(profile.createdAt).toLocaleDateString('uz-UZ') : "18.12.2025"}
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
 
-                    {isEditing && (
-                        <div className="flex items-center gap-3 mt-8 pt-6 border-t border-gray-200">
-                            <Button
-                                onClick={handleSave}
-                                disabled={isUpdating}
-                                className="bg-black hover:bg-gray-800 text-white"
+                            <Separator />
+
+                            <div className="flex items-center gap-6 text-xs text-slate-400">
+                                <div className="flex items-center gap-1">
+                                    <Clock className="w-3 h-3" />
+                                    Oxirgi yangilanish: {profile?.updatedAt ? new Date(profile.updatedAt).toLocaleString('uz-UZ') : "Hozirgina"}
+                                </div>
+                            </div>
+                        </CardContent>
+                        {isEditing && (
+                            <CardFooter className="bg-slate-50 p-4 flex gap-3 border-t">
+                                <Button onClick={handleSave} disabled={isUpdating} className="bg-blue-600 hover:bg-blue-700">
+                                    {isUpdating ? <Spinner className="mr-2" /> : <Save className="w-4 h-4 mr-2" />}
+                                    Saqlash
+                                </Button>
+                                <Button onClick={handleCancel} variant="ghost">Bekor qilish</Button>
+                            </CardFooter>
+                        )}
+                    </Card>
+                </TabsContent>
+
+                <TabsContent value="security">
+                    <Card className="border-none shadow-md">
+                        <CardHeader>
+                            <div className="flex items-center gap-3">
+                                <div className="p-2 bg-amber-100 text-amber-600 rounded-lg">
+                                    <Lock className="w-5 h-5" />
+                                </div>
+                                <CardTitle>Xavfsizlik sozlamalari</CardTitle>
+                            </div>
+                        </CardHeader>
+                        <CardContent className="space-y-4 max-w-md">
+                            <div className="space-y-2">
+                                <label className="text-sm font-medium">Hozirgi parol</label>
+                                <Input 
+                                    type="password" 
+                                    placeholder="••••••••"
+                                    value={passwordData.currentPassword}
+                                    onChange={(e) => setPasswordData({...passwordData, currentPassword: e.target.value})}
+                                />
+                            </div>
+                            <div className="space-y-2">
+                                <label className="text-sm font-medium">Yangi parol</label>
+                                <Input 
+                                    type="password" 
+                                    placeholder="Kamida 6 belgi"
+                                    value={passwordData.newPassword}
+                                    onChange={(e) => setPasswordData({...passwordData, newPassword: e.target.value})}
+                                />
+                            </div>
+                            <div className="space-y-2">
+                                <label className="text-sm font-medium">Yangi parolni tasdiqlang</label>
+                                <Input 
+                                    type="password" 
+                                    placeholder="••••••••"
+                                    value={passwordData.confirmPassword}
+                                    onChange={(e) => setPasswordData({...passwordData, confirmPassword: e.target.value})}
+                                />
+                            </div>
+                        </CardContent>
+                        <CardFooter className="border-t p-4 mt-4">
+                            <Button 
+                                onClick={handlePasswordChange} 
+                                disabled={isChangingPass}
+                                className="bg-slate-900"
                             >
-                                {isUpdating ? (
-                                    <>
-                                        <Spinner className="w-4 h-4 mr-2" />
-                                        Saving...
-                                    </>
-                                ) : (
-                                    <>
-                                        <Save className="h-4 w-4 mr-2" />
-                                        Save Changes
-                                    </>
-                                )}
+                                {isChangingPass ? <Spinner className="mr-2" /> : <Lock className="w-4 h-4 mr-2" />}
+                                Parolni yangilash
                             </Button>
-                            <Button
-                                onClick={handleCancel}
-                                variant="outline"
-                                disabled={isUpdating}
-                                className="border-gray-300 text-black"
-                            >
-                                <X className="h-4 w-4 mr-2" />
-                                Cancel
-                            </Button>
-                        </div>
-                    )}
-                </div>
-            )}
+                        </CardFooter>
+                    </Card>
+                </TabsContent>
+            </Tabs>
         </div>
     );
 };
+
+const ProfileSkeleton = () => (
+    <div className="max-w-4xl mx-auto space-y-8 p-4">
+        <div className="flex justify-between items-end">
+            <div className="space-y-2">
+                <Skeleton className="h-10 w-48" />
+                <Skeleton className="h-4 w-64" />
+            </div>
+            <Skeleton className="h-11 w-32" />
+        </div>
+        <Skeleton className="h-12 w-full max-w-[400px]" />
+        <Card className="border-none shadow-sm">
+            <CardHeader><Skeleton className="h-20 w-full" /></CardHeader>
+            <CardContent className="space-y-6 p-6">
+                <div className="grid grid-cols-2 gap-8">
+                    {[1,2,3,4].map(i => <Skeleton key={i} className="h-16 w-full" />)}
+                </div>
+            </CardContent>
+        </Card>
+    </div>
+);

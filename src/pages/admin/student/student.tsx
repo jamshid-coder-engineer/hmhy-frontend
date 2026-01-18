@@ -3,7 +3,7 @@ import {
   Search, 
   Eye, 
   Edit, 
-  Ban, 
+  // Ban, 
   Trash2, 
   UserCheck, 
   Users, 
@@ -194,7 +194,7 @@ const stats = statsData ?? {
                 <div className="flex items-center gap-2 opacity-80 group-hover:opacity-100 transition-opacity">
                   <ActionButton icon={<Eye className="w-4 h-4" />} label="View" color="blue" onClick={() => openModal("detail", student.id)} />
                   <ActionButton icon={<Edit className="w-4 h-4" />} label="Edit" color="gray" onClick={() => openModal("edit", student.id)} />
-                  <ActionButton icon={<Ban className="w-4 h-4" />} label={student.isBlocked ? "Unblock" : "Block"} color="orange" onClick={() => openModal("block", student.id)} />
+                  {/* <ActionButton icon={<Ban className="w-4 h-4" />} label={student.isBlocked ? "Unblock" : "Block"} color="orange" onClick={() => openModal("block", student.id)} /> */}
                   <ActionButton icon={<Trash2 className="w-4 h-4" />} label="Delete" color="red" onClick={() => openModal("delete", student.id)} />
                 </div>
               </CardContent>
